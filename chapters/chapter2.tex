@@ -1,0 +1,1043 @@
+\section{Stochastic Integrals}
+The aim of this chapter will be to properly define the stochastic integral and the stochastic differential. We would like to write expressions like 
+\begin{equation*}
+    \int_0^T X_s(\omega) dB_s(\omega)
+\end{equation*}
+
+Our first try will be to apply tools of classical analysis, like the Riemann-Stieltjes integral. First of all, let's discuss a bit more in depth the regularities properities of the trajectories of a brownian motion. We have proven in the last section that the paths are Holder-continuous with constant $\gamma < \frac{1}{2}$. Can this result be improved? No.
+\begin{proposition}
+    Outside of a set with probability zero, no path is Holder-continuous with constant $\gamma \geq \frac{1}{2}$ in any time interval $[a,b] \subset [0,\infty)$. 
+\end{proposition}
+
+Recall some classical analysis facts: take a continuously differentiable function $X \in \mathcal{C}^1(\mathbb{R})$. Therefore 
+
+\begin{equation*}
+    \big\vert X(T) - X(0) \big\vert = \Bigg\vert \int_0^T X'_r(\omega) dr \Bigg\vert \leq \sup_{r \in [s,t]} \big\vert X_r' \big\vert (t-s) \leq C (t-s)
+\end{equation*}
+
+In other words, every $\mathcal{C}^1$ function is Lipschitz-continuous on any compact set $[s,t] \subset \mathcal{R}$, in particular Holder-continuous with constant $\gamma = 1$. Since for the above mentioned proposition, the paths of a brownian motion can not have $\gamma$ bigger than $\frac{1}{2}$, it's impossible for a Brownian motion to have continuously differentiable trajectories. 
+
+\begin{theorem}
+    All the paths of a brownian motion are continuous $X_t(\omega) \in \mathcal{C}^0$, but none of them are differentiable almost surely 
+    \begin{gather*}
+        \limsup_{h \to 0} \frac{X_{t+h}(\omega)-x_t(\omega)}{h} = \infty \;\;\;\; \mathbb{P}-\text{almost surely} \\
+        \liminf_{h \to 0} \frac{X_{t+h}(\omega)-x_t(\omega)}{h} = -\infty \;\;\;\; \mathbb{P}-\text{almost surely}
+    \end{gather*}
+\end{theorem}
+
+In classical analysis, given a partition of the interval $0 = t_0 \leq t_1 \leq \cdot\cdot\cdot \leq t_n = T$, we can define the Riemann-Stieltjes integral, under suitable conditions for $f$ and $h$, as the limit of the sum 
+
+\begin{equation*}
+    \int_0^T h(s) df(s) = \lim_{h \to \infty} \sum_{n=0}^{n-1} h(s_k)\Big( f(s_{k+1})-f(s_{k})\Big)
+\end{equation*}
+
+In particular, $f$ is an monotonically increasing and right-continuous function. These conditions are required for $f$ to define a well-posed measure on $\Big([0,\infty), \mathcal{B}[0,\infty) \Big)$, which we call $\mu\big((a,b]\big) = f(b)-f(a)$. With respect to this measure, the Riemann-Stieltjes integral become
+
+\begin{equation*}
+    \int_0^T h(s) df(s) = \lim_{h \to \infty} \sum_{n=0}^{n-1} h(s_k)\mu\big( [t_{k+1},t_k]\big)
+\end{equation*}
+
+Let $v_1,v_2 : [0,\infty) \to \mathbb{R}$ be two increasing and right-continuous functions and define $f = v_1-v_2$. The above integral can be then rewritten as 
+
+\begin{equation*}
+    \int_0^T h(s) df(s) = \int_0^T h(s) dv_1(s) - \int_0^T h(s) dv_2(s)
+\end{equation*}
+
+In general, any function $f : [0,\infty) \to \mathbb{R}$ that can be written as the difference of two other functions $v_1,v_2$ may define a measure, which can be later be used to integrate. Such functions can be characterized better, using the concept of first variation. 
+
+\begin{definition}
+    Given $f : [a,b] \to \mathbb{R}$, we call first \textit{first variation} the number
+    \begin{equation*}
+        V^a_b f = \sup_{\pi} \sum_{i=0}^{m-1} \Big\vert f(t_{i+1}) - f(t_i) \Big\vert
+    \end{equation*}
+    where $\pi$ is a partition of the interval. A function is said to have finite first variation if $V^a_b f < \infty$. 
+\end{definition}
+
+\begin{proposition}
+    A function $f$ has finite first variation $V_a^b f < \infty$ if and only if it can be written as the difference of two increasing functions $v_1,v_2$.
+\end{proposition}
+
+The Riemann-Stieltjes integral can be defined with respect to any function with finite first variation $V_a^b f < \infty$. The natural question is now, does the brownian motion have finite first variation? If that was the case, we could define the stochastic integral $\omega$ by $\omega$, using the construction of Riemann and Stieltjes. Unfortunately, the answer is no. 
+
+\begin{lemma}
+    Let $B$ be a brownian motion and $\pi = (t_1,t_2,...,t_m)$ be a partition of the interval $[s,t]$. Let $\vert \pi \vert = \max (t_i-t_{i-1})$. 
+    \begin{equation*}
+        s_{\pi} = \sum_{k=0}^{m-1} \vert B_{t_{k+1}}-B_{t_k} \vert^2
+    \end{equation*}
+    Then, $s_{\pi}$ tends to $t-s$ in $L^2$. 
+\end{lemma}
+\begin{proof}
+    We begin by computing the expected value of the square of $s_{\pi}$ minus $t-s$
+    \begin{gather*}
+        E\Big( \big\vert s_{\pi} - (t-s) \big\vert^2 \Big) = E\Bigg( \Bigg\vert \sum_{k=0}^{m-1} \vert B_{t_{k+1}}-B_{t_k} \vert^2 - (t_{k+1}-t_k) \Bigg\vert^2 \Bigg) = \\
+        = E\Bigg( \Bigg\vert \sum_{k=0}^{m-1} \vert B_{t_{k+1}}-B_{t_k} \vert^2 - \sum_{k=0}^{m-1} t_{k+1}-t_k \Bigg\vert^2 \Bigg) = E \Bigg( \Bigg\vert \sum_{k=0}^{m-1} \vert B_{t_{k+1}}-B_{t_k} \vert^2 - (t_{k+1}-t_k) \Bigg\vert^2 \Bigg) = \\
+        = \sum_{k=0}^{m-1} E\Bigg( \Big( \vert B_{t_{k+1}}-B_{t_k} \vert^2 - (t_{k+1}-t_k) \Big)^2 \Bigg) + \sum_{k\neq h} E\Bigg( \Big( B_{t_{k+1}}-B_{t_k} \Big)^2 - (t_{k+1}-t_k) \Big) \Big( (B_{t_{h+1}}-B_{t_h})^2 - (t_{h+1}-t_h) \Big) \Bigg)
+    \end{gather*}
+
+    Note that the increments are independent $\mathcal{F}_k$ and $\mathcal{F}_h$, respectively. Hence, the second expected value can be factored out into two different parts 
+    \begin{gather*}
+        E\Bigg( \Big( B_{t_{k+1}}-B_{t_k} \Big)^2 - (t_{k+1}-t_k) \Big) \Big( (B_{t_{h+1}-t_h})^2 - (t_{h+1}-t_h) \Big) \Bigg) = \\
+        = E\Bigg( B_{t_{k+1}}-B_{t_k} \Big)^2 - (t_{k+1}-t_k) \bigg) E\Bigg( (B_{t_{h+1}}-B_{t_h})^2 - (t_{h+1}-t_h) \Bigg) = \\
+        = \Bigg( E\Big( (B_{t_{k+1}}-B_{t_k})^2 \Big) - t_{k+1}+t_k \Big) \Bigg) \Bigg( E\Big( (B_{t_{h+1}}-B_{t_h})^2 \Big) - t_{k+1}+t_k \Big) \Bigg) = 0
+    \end{gather*}
+    Because both increments are distributed as $\mathcal{N}(0,t_{k+1}-t_k)$. We are left with only the first sum of expected values, in which we normalize the increments to get
+    \begin{gather*}
+        \sum_{k=0}^{m-1} E\Bigg( \Big( \vert B_{t_{k+1}}-B_{t_k} \vert^2 - (t_{k+1}-t_k) \Big)^2 \Bigg) = \sum_{k=0}^{m-1} (t_{k+1}-t_k)^2 E\Bigg( \Bigg( \frac{(B_{t_{k+1}}-B_{t_k})^2}{t_{k+1}-t_k} -1\Bigg)^2 \Bigg)
+    \end{gather*}
+    Define the quantity $q_k = (B_{t_{k+1}}-B_{t_k})^2/(t_{k+1}-t_k) \sim \chi^2(1)$. In particular, $E(q_k) = 1$ and $Var(q_k) = E((q_k-1)^2) = 2$. Therefore, the series above become
+    \begin{equation*}
+        \sum_{k=0}^{m-1} (t_{k+1}-t_k)^2 E\Big( (q_k-1)^2 \Big) = \sum_{k=0}^{m-1} 2(t_{k+1}-t_k)^2
+    \end{equation*}
+
+    Going back to where we've started this calculations, we were able to prove the limit in $L^2$ of the sequence $s_{\pi}$ is equal to 
+    \begin{gather*}
+        E\Big( (s_{\pi} - t+s)^2 \Big) = 2 \sum_{k=0}^{m-1} (t_{k+1}-t_k)^2 \leq 2 \vert \pi \vert \sum_{k=0}^{m-1} (t_{k+1}-t_k) = 2 \vert\pi\vert (t-s)
+    \end{gather*}
+    As $\vert\pi\vert \to 0$, the expected value goes to zero as well. Hence, $s_\pi$ converges in $L^2$ to $t-s$.
+\end{proof}
+
+\begin{proposition}
+    The brownian motion $B_t$ has infinite finite variation. 
+\end{proposition}
+\begin{proof}
+    Consider the sequence $s_{\pi}$ defined in the lemma above. We can write the following inequality 
+
+    \begin{equation*}
+        s_{\pi} = \sum_{k=0}^{m-1} (B_{t_{k+1}-B_{t_k}})^2 \leq \max_{0 \leq k \leq m-1} \vert B_{t_{k+1}}-B_{t_k} \vert \sum_{k=0}^{m-1} \vert B_{t_{k+1}}-B_{t_k} \vert \leq \max_{0 \leq k \leq m-1} \vert B_{t_{k+1}}-B_{t_k} \vert V_t^s B
+    \end{equation*}
+
+where we've introduced the first variation. Now, note that the left hand side converges in $L^2$ to $t-s$, so there's a least one sub sequence that converges to $t-s$ also almost surely. The other hand side, if $\vert \pi \vert \to 0$ goes to zero almost surely if the finite variation was finite. The brownian motion is continuous, so the $\max$ term would tend to zero. However, by uniqueness of the limit, there can not be a subsequence going to $t-s$ while the rest of the limit is going to zero. Therefore, we conclude that the first variation must be infinite.  
+\end{proof}
+
+For any continuous process $X$ we can define the \textit{quadratic variation} in the interval $[0,T]$ as the limit in probability
+
+\begin{equation*}
+    \langle X_t \rangle = \lim_{\vert \pi \vert \to 0} \sum_{k=0}^{m-1} \vert X_{t_{k+1}}-X_{t_k} \vert^2
+\end{equation*}
+
+In the previous proof, we showed that for the brownian motion the quadratic variation is equal to $\langle B_t \rangle = t$. There's a strong bond between first and quadratic variation; in fact, suppose the continuous process $X_t$ has finite first variation $V_0^T X < \infty$, therefore 
+
+\begin{equation*}
+    \sum_{k=0}^{m-1} \vert X_{t_{k+1}}-X_{t_k} \vert^2 \leq \max_{k} \vert X_{t_{k+1}}-X_{t_k} \vert \sum_{k=0}^{m-1} V_t^s X
+\end{equation*}
+
+Again, since the process is continuous, the right hand side goes to zero for $\vert \pi \vert \to 0$, which in turns implies that $\langle X_t \rangle = 0$. So, we can conclude that if $V_0^T X < \infty$, then the quadratic variation is zero. Conversely, if the quadratic variation is non-zero, like in the case of a brownian motion, then the first variation must be infinite. 
+
+We conclude this part with a brief discussion of the asymptotic properties of the brownian motion. In particular, we know that $B_t \sim \mathcal{N}(0,t)$, so the variance increases with time $Var(B_t) \to \infty$. On the contrary, the process $\frac{1}{t}B_t \sim \mathcal{N}(0,\frac{1}{t})$, so the variance actually goes to zero.
+
+\begin{proposition}
+    Let $B_t$ be a brownian motion
+    \begin{gather*}
+        \limsup_{t \to \infty} B_t = +\infty \;\; \mathbb{P}-\text{almost surely} \\
+        \liminf_{t \to \infty} B_t = -\infty \;\; \mathbb{P}-\text{almost surely} \\
+        \lim_{t \to \infty} \frac{1}{t} B_t = 0 \;\; \mathbb{P}-\text{almost surely}
+        \end{gather*}
+\end{proposition}
+
+The two points make it clear that there is no such thing as the limit, for $t \to \infty$, of a brownian motion $B_t$. The proof of the last statement is a simple application of the scaling properties of the brownian motion, as seen in the last chapter. Take $\tilde{B_s} = s B_{1/s}$, which is still a brownian motion, and consider the limit $s \to 0$. Inside the limit, change the variable $s = \frac{1}{t}$
+
+\begin{equation*}
+    \lim_{s \to 0} \tilde{B_s} = \lim_{s \to 0} s B_{\frac{1}{s}} = \lim_{t \to \infty} \frac{1}{t} B_t = 0
+\end{equation*}
+
+\subsection{Stopping Time}
+By the scaling properties of a brownian motion, we know that $(B_{t+s}-B_s)$ is still a brownian motion, independent of the $\sigma-$algebra $\mathcal{F}_s$. 
+
+\begin{theorem}
+    Let $B$ be a brownian motion and let $\tau$ be a stopping time, almost surely finite, of the filtration $(\mathcal{F}_t)_t$. Then the quantity $Y_t = B_{t+\tau}-B_{\tau}$ is a brownian motion independent of $\mathcal{F}_{\tau}$. 
+\end{theorem}
+
+This theorem has many important applications, including the \textit{reflection principle} of the brownian motion. Consider a brownian motion $B = (\Omega, \mathcal{F}, (\mathcal{F}_t)_t, (B_t), \mathbb{P})$ and an exit time $\tau_a(\omega) = \inf \{ t \geq 0 : B_t \leq a \}$. Since the interval $(-\infty,a)$ is open,  $\tau_a$ is indeed a stopping time. Moreover, given that the $\limsup$ for $t \to \infty$ is infinite, the stopping time $\tau_a$ is almost surely finite. 
+
+\begin{theorem}[Reflection Principle]
+    The probability of $\tau_a$ being less or equal than a time instant $t$ is twice the probability of the brownian being bigger than $a$, in formulae
+
+    \begin{equation}
+        \mathbb{P}(\tau_a \leq t ) = 2\mathbb{P}(B_t \geq a)
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    First, we break the left hand side into two parts, namely $\mathbb{P}(\tau_a \leq t) = \mathbb{P}(\tau_a \leq t, B_t \leq a) + \mathbb{P}(\tau_a \leq t, B_t \geq a)$, which we now deal with separately. 
+
+    Take the first term, since $a = B_{\tau_a}$, we can rewrite the event as
+    \begin{equation*}
+        \mathbb{P}(\tau_a, B_t \leq a) = \mathbb{P}(\tau_a \leq t, B_t \leq B_{\tau_a} ) = \mathbb{P}(\tau_a \leq t, B_t - B_{\tau_a} \leq 0)
+    \end{equation*}
+
+    Introduce the process $W_{t} = B_{t+\tau_a}-B_t$. Note that this definition is well posed, as $\tau_a < \infty$ almost surely. In particular, $W_{t-\tau_a} = B_{t}-B_{\tau_a}$, so that
+
+    \begin{equation*}
+        \mathbb{P}(\tau_a, B_t - B_{\tau_a} \leq 0) = \mathbb{P}(\tau_a \leq t, W_{t-\tau_a \leq 0})
+    \end{equation*}
+
+    Using the theorem above, we know $W_{t}$ is a brownian motion independent of $\mathcal{F}_{\tau_a}$, which itself contains the $\sigma-$algebra generated by the stopping time $\mathcal{F}_{\tau_a} \supset \sigma(\tau_a)$. Hence, $W_t \indep \tau_a$. 
+
+    By the scaling propreties of the brownian motion, $W$ and $-W$ have the same law.
+
+    \begin{gather*}
+        \mathbb{P}(\tau_a \leq t, W_{t-\tau_a} \leq 0) = \mathbb{P}(\tau_a \leq t, -W_{t-\tau_a} \leq 0) = \\
+        = \mathbb{P}(\tau_a \leq t, -B_t + B_{\tau_a} \leq 0) = \mathbb{P}(\tau_a \leq t, B_{\tau_a} \leq B_t) = \mathbb{P}(\tau_a \leq t, B_t \geq a)
+    \end{gather*}
+
+    Therefore, we can finally write the initial probability as the sum of two identical contributions $\mathbb{P}(\tau_a \leq t) = \mathbb{P}(\tau \leq a, B_t \geq a)+\mathbb{P}(\tau \leq a, B_t \geq a) = 2\mathbb{P}(\tau \leq a, B_t \geq a)$. 
+\end{proof}
+
+\subsection{Conditional Expectation}
+Consider a real and integrable random variable defined on $(\Omega, \mathcal{F}, \mathbb{P})$. Let $\mathcal{D} \subset \mathcal{F}$ be a subset. 
+
+\begin{definition}
+    The conditional expectation of $X$ with respect to $\mathcal{D}$, denoted with $Z = E(X \vert \mathcal{D})$, is an equivalent class of random variables such that 
+    \begin{itemize}
+        \item $Z$ is a $\mathcal{D}-$measurable and integrable
+        \item For every $D \in \mathcal{D}$ we have 
+        \begin{equation*}
+            \int_D X d\mathbb{P} = \int_{D} Z d \mathbb{P} \;\;\; \iff \;\;\; E(X \mathbb{I}_D) = E(Z \mathbb{I}_D) \;\; D \in \mathcal{D}
+        \end{equation*}
+    \end{itemize}
+\end{definition}
+
+By this definition, the conditional expectation is unique up to $\mathbb{P}-$equivalence. We shall now prove the existence of the conditional expectation
+
+\begin{proof}
+    Let's first assume $X \geq 0$. Consider the positive measure on the measurable space $(\Omega,\mathcal{D})$ defined by
+    \begin{equation}
+        q(B) = \int_B X d\mathbb{P} \;\;\; B \in \mathcal{D}
+    \end{equation}
+    This is indeed a finite measure, since $q(\Omega) = E(X) < \infty$. The two measures $\mathbb{P},\mathbb{Q}$ are equivalent: take $A \in \mathcal{D}$ such that $\mathbb{P}(A) = 0$, then
+    \begin{equation*}
+        q(A) = \int_{A} X d\mathbb{P} = 0 \;\; \implies \;\; \mathbb{Q}(A) = 0
+    \end{equation*}
+    $\mathbb{Q}$ is absolutely continuous with respect to $\mathbb{P}$. By Radon-Nikodym theorem, there exists a real, $\mathcal{D}-$measurable and integrable random variable such that 
+    \begin{gather*}
+        q(B) = \int_B Z d\mathbb{P} \;\;\; B \in \mathcal{D} \;\;\; \implies q(B) = \int_B X d\mathbb{P} = \int_B Z d\mathbb{P} \;\:\: D \in \mathcal{D}
+    \end{gather*}
+    So, we can conclude that $Z = E(X \vert \mathcal{D})$. 
+\end{proof}
+
+The definition given above is restricted to positive random variables; however, it can easily to generalized to sign changing random variables since $X = X^+-X^-$, where both $X^+,X^-$ are positive
+
+\begin{equation*}
+    E(X\vert \mathcal{D}) = E(X^+ \vert \mathcal{D})-E(X^-\vert \mathcal{D})
+\end{equation*}
+
+As we mentioned, conditional expectation is unique up to $\mathbb{P}-$equivalence. We shall now prove this
+\begin{proof}
+    Suppose $Z_1,Z_2$ are real and $D-$measurable, integrable and random variables such that 
+    \begin{equation*}
+        \int_D Z_1 d\mathbb{P} = \int_D Z_2 d\mathbb{P} = \int_D X d\mathbb{P} \;\;\; D \in \mathcal{D}
+    \end{equation*}
+
+Define the set $B = \{ \omega : Z_1(\omega) > Z_2(\omega) \} \in \mathcal{D}$. By the equality written above, it follows that 
+
+\begin{gather*}
+    \int_{B} Z_1(\omega)-Z_2(\omega) d\mathbb{P}(\omega) = 0 \;\; \text{but} \;\; Z_1-Z_2 > 0 \\
+    \mathbb{P}(B) = 0 \;\; \implies \;\; Z_1 \leq Z_2 \;\; \mathbb{P}-\text{almost surely}
+\end{gather*}
+
+Now, define the set $C = \{ \omega : Z_1 \leq Z_2 \} \in \mathcal{D}$. Again, by the previous equality 
+
+\begin{equation*}
+    \int_{C} Z_1(\omega) - Z_2(\omega) d\mathbb{P}(\omega) = 0 \;\; \implies \;\; \mathcal{P}(C) = 0
+\end{equation*}
+
+We can conclude that $Z_1 = Z_2$ almost surely. 
+\end{proof}
+
+Consider two real, $\mathcal{D}-$measurable and integrable random variables, so that $E(Z \mathbb{I}_A) = E(W \mathbb{I}_A) = E(X \mathbb{I}_A)$, for every $A \in \mathcal{D}$. In this sense, the conditional expectation is actually an equivalence class of random variables, where the equivalence relation is: $Z \sim W$ if and only if $\mathbb{P}(Z = W) = 1$. 
+
+The conditional expectation can be interpreted as the best prediction one can give, based on the information contained in the $\sigma-$algebra $\mathcal{D}$. Here we give a few examples 
+
+\begin{gather*}
+    \mathcal{D} = \{ \emptyset, \Omega \} \;\;\;\; E\Big( X \vert \{ \emptyset, \Omega\} \Big) = c \;\; \text{constant} \\
+    \int_{\Omega} X d \mathbb{P} = \int_{\Omega} E\big(X \vert \{\emptyset, \Omega\}\big) d \mathbb{P} = c \mathbb{P}(\Omega) = c = E(X) \\
+    \implies \;\; E\big(X \vert \{\emptyset, \Omega \} \big) = E(X)
+\end{gather*}
+
+In this example, conditioning with respect to the trivial $\sigma-$algebra $\mathcal{D}$ results in no changes from the original expectation. Knowing just $\{ \emptyset,\Omega \}$ adds no useful knowledge. On the other hand, if we were conditioning with respect to $\sigma(X)$, we'd actually know everything about the outcome of $X$, hence the conditional expectation would be just $E\big(X \vert \sigma(X) \Big) = X$. This can be further generalized, as we'll see in a moment. 
+
+The next proposition may serve as an alternative characterization of the conditional expectation
+
+\begin{proposition}
+    $Z$ is the conditional expectation of $X$ with respect to $\mathcal{D}$ if and only if the following hold
+    \begin{equation*}
+        Z \;\;\text{is $\mathcal{D}-$measurable} \;\;\;\;\;\; E(XY) = E(ZY) \;\; \text{for every $Y$ bounded and $\mathcal{D}-$measurable}
+    \end{equation*}
+\end{proposition}
+
+Often, when we are conditioning with respect to the $\sigma-$algebra generated by a random variable, like $\sigma(Y)$, we'll $E\big(X \vert Y \big)$ instead of $E\big(X \vert \sigma(Y) \big)$. By definition, $E(X\vert Y)$ is $\sigma(Y)-$measurable; using Doob's lemma, we can conclude that there must exist a function $h : (\mathbb{R},\mathcal{B}) \to (\mathbb{R},\mathcal{B})$ such that $E(X\vert Y) = h(Y)$. 
+
+\begin{proposition}[Properties of conditional expectation]
+    Let $X,Y$ be two integrable random variables and take two real numbers $\alpha,\beta \in \mathbb{R}$. 
+    \begin{enumerate}
+        \item The conditional expectation is linear $E(\alpha X+\beta Y \vert \mathcal{D}) = \alpha E(X\vert \mathcal{D})+\beta E(Y \vert \mathcal{D})$
+        \item If $X \geq 0$ almost surely, then $E(X \vert \mathcal{D}) \geq 0$ almost surely
+        \item $E\big( E(X \vert \mathcal{D}) \big) = E(X)$
+        \item \textbf{Tower Property:} $E\Big( E(X \vert \mathcal{D}) \vert \mathcal{G}\Big) = E( X \vert \mathcal{G} )$ almost surely
+        \item If $X \indep \mathcal{D}$ then $E(X \vert \mathcal{D}) = E(X)$
+        \item $X \indep \mathcal{D}$ if and only if $E(h(X) \vert \mathcal{D}) = E\big(h(X)\big)$ almost surely, for every real, bounded and continuous function. This is another possible characterization of independence
+        \item If $Y$ is $\mathcal{D}-$measurable and bounded or $\mathcal{D}-$measurable and $XY$ is integrable, then $E(XY \vert \mathcal{D}) = Y E(X \vert \mathcal{D})$ 
+        \item Let $X_n$ be a sequence of increasing random variables $X_n \uparrow X$ almost surely, then 
+        \begin{equation}
+            E(X_n \vert \mathcal{D}) \uparrow E(X \vert \mathcal{D}) \;\;\;\; \text{Beppo-Levi theorem}
+        \end{equation}
+        \item If for every $n \in \mathbb{N}$, we have $X_n \geq Y \in L^1$, then 
+        \begin{equation}
+            E\Big( \liminf X_n \big\vert \mathcal{D} \Big) \leq \liminf E\big( X_n \vert \mathcal{D} \big) \;\;\;\; \text{Fatou's lemma}
+        \end{equation}
+        \item Consider a sequence of random variables $X_n$ such that $\vert x_n \vert \leq Y \in L^1$ and $X_n \to X$ almost surely. Hence
+        \begin{equation}
+            E(X_n \vert \mathcal{D})  \to E(X \vert \mathcal{D}) \;\;\;\; \text{Lebesgue theorem}
+        \end{equation}
+        \item Consider a function $h : \mathbb{R} \to \mathbb{R} \subset \{ \infty \}$ convex and lower semi-continuous. Then $h(X)$ is lower semi-integrable and
+        \begin{equation}
+            h\Big( E(X\vert \mathcal{D}) \Big) \leq E\Big(h(X) \vert \mathcal{D} \Big) \;\;\;\; \text{Jensen inequality}
+        \end{equation}
+        A very useful application of Jensen inequality is $\big\vert E(X  \mathcal{D}) \big\vert \leq E\big( \vert X \vert \big\vert \mathcal{D} \big)$, since the absolute value is a convex function. 
+    \end{enumerate}
+\end{proposition}
+
+We can think of conditional expectation as an operator, acting on the functional space $L^p(\Omega,\mathcal{F},\mathbb{P})$, the set of the equivalence classes of random variables $X$, such that $E(\vert X \vert^p) < \infty$. On this space we generally introduce the $L^p-$norm
+\begin{equation*}
+    \Vert X \Vert_p = \Big( E\big( \vert X \vert^p \big) \Big)^{\frac{1}{p}} \;\;\;\; E\big(\cdot \vert \mathcal{D} \big) : L^p(\Omega, \mathcal{F}, \mathbb{P}) \to L^p(\Omega, \mathcal{D}, \mathbb{P})
+\end{equation*}
+
+\begin{proposition}
+    The conditional expectation is a continuous and linear operator from $L^p(\mathcal{F})$ to $L^p(\mathcal{D})$ with norm smaller than $1$. It is in fact a \textit{contraction}.
+\end{proposition}
+\begin{proof}
+    For any random variable $X \in L^p(\mathbb{F})$, the conditional expectation is a random variable $E(X \vert \mathcal{D}) \in L^p(\mathcal{D})$. By Jensen inequality, we see that
+    \begin{equation*}
+        E\Bigg( \Big\vert E(X\vert \mathcal{D}) \Big\vert^p \Bigg) \leq E\Bigg( E\Big( \big\vert X \big\vert^p \vert \mathcal{D} \Big)\Bigg) = E\Big( \vert X \vert^p \Big) < \infty
+    \end{equation*}
+
+    This proves that $E(\cdot \vert \mathcal{D}) : L^p(\mathcal{F}) \to L^p(\mathcal{D})$ is well defined. Moreover, the properties mentioned above ensure this operator is indeed linear. Moreover, consider a sequence $X_n \to X$ so that
+    \begin{equation*}
+        E\Bigg( \Big\vert E(X_n\vert \mathcal{D}) - E(X\vert \mathcal{D}) \Big\vert^p \Bigg) = E\Bigg( \Big\vert E(X_n - X\vert \mathcal{D}) \Big\vert^p \Bigg) \leq E\Big( E\big( \big\vert X_n - X \big\vert^p \vert \mathcal{D} \big) \Big) = E\big( \big\vert X_n - X \big\vert^p \vert \mathcal{D} \big) \to 0 
+    \end{equation*}
+
+    So the operator itself is continuous. We just have to check that the norm is smaller than one. Recall that norm of an operator in $L^p$ is defined as
+    \begin{equation*}
+        \Vert E(\cdot \vert \mathcal{D}) \Vert = \sup_{\Vert X \Vert_p = 1} \Vert E(X \vert \mathcal{D} ) \Vert_p \leq \sup_{\Vert X \Vert_p = 1} \Vert X \Vert_p = 1
+    \end{equation*}
+\end{proof}
+
+We shall devote a couple of lines to the special case $p=2$; in this case $L^2$ is a Hilbert space and the expectation is just an inner product. Consider $X \in L^2(\mathcal{F})$, then the conditional expectation $Z = E(X \vert \mathcal{D})$ is an element of $L^2(\mathcal{D})$. We know that $E(X W) = E(Z W)$, for any $W \in L^2(\mathcal{D})$, but
+
+\begin{equation*}
+    E\big((X-Z) W \big) = 0 \;\; \langle X-Z, W \rangle_{L^2} = 0 \;\; \forall W \in L^2(\mathcal{D})
+\end{equation*}
+
+We may state that $X-Z$ is orthogonal to all the vectors of $L^2(\mathcal{D})$. In this sense, $Z = E(X \vert \mathcal{D})$ is the projection of $X$ onto the space $L^2(\mathcal{D})$ and therefore minimizes the distance
+
+\begin{gather*}
+    \Vert X - W \Vert_2^2 = \Vert X - Z + Z - W \Vert_2^2 = E\Big( \big( X - Z + Z - W\big)^2 \Big) = \\
+    = E\Big( \big(X-Z\big)^2 \Big) + 2 E\Big( \big(X-Z\big)\big(Z-W\big) \Big) + E\Big( \big(Z-W\big)^2 \Big) \geq E\Big( \big(X-Z\big)^2 \Big) = \Vert X-Z \Vert_2^2
+\end{gather*}
+
+Computing conditional expectation can be quite hard in general, while when there is some form of measurability or independence, things are greatly simplified. The following lemma serves the purpose of calculating conditional expectations, combining the two situations above. 
+
+\begin{lemma}[Freezing]
+    Given a probability space $(\Omega, \mathcal{F}, \mathbb{P})$, consider two sub-$\sigma-$algebra $\mathcal{D},\mathcal{G} \subset \mathcal{F}$, so that $\mathcal{G} \indep \mathcal{D}$. Take a random variable $X : (\Omega, \mathcal{D}) \to (E, \mathcal{E})$ and a function $\psi : (E \times \Omega, \mathcal{E} \otimes \mathcal{G}) \to (\mathbb{R}, \mathcal{B})$, where the composition $\psi(X(\cdot),\cdot)$ is integrable. Then
+    \begin{equation}
+        E\Big(\psi\big(X(\cdot),\cdot\big) \big\vert \mathcal{D} \Big) = \Phi(X) \;\;\;\;\;\; \Phi(x) = E\big(\psi(x,\cdot)\big) \;\; \forall \; x \in E 
+    \end{equation}
+\end{lemma}
+
+Roughly speaking, we freeze what is known, namely $X$ since it's $\mathcal{D}$ measurable, compute the independent part, given that $\psi(x)$ is $\mathcal{G}-$measurable and $\mathcal{G}\indep\mathcal{D}$, and finally \textit{unfreeze} the $X$. Here's an example:
+
+\begin{gather*}
+    \psi(Z_1,Z_2) = \exp{i u Z_1+iv Z_1 Z_2} \;\;\;\; \text{where} \;\; Z_1,Z_2 \sim \mathcal{N}(0,1) \\
+    E\Big( \psi(Z_1,Z_2) \vert Z_2 \Big) = \Phi(Z_2) \;\;\;\; \Phi(x) = E\big( \exp{iuZ_1+ivx Z_1} \big) = E\big( \exp{i(u+vx)Z_1} \big) \\
+    \Phi(x) = \exp{-\frac{1}{2}\big(u+vx\big)^2} \;\; \implies \;\; E\Big( \psi(Z_1,Z_2) \vert Z_2 \Big) = \exp{-\frac{1}{2}\big(u+vZ_2\big)^2}
+\end{gather*}
+
+Consider a $d-$dimensional $\mathcal{F}_t-$brownian motion $B_t$. Let $h : \mathbb{R}^d \to \mathbb{R}$ borel and bounded function
+
+\begin{equation*}
+    E\Big( h(B_t) \vert \mathcal{F}_s \Big) = E\Big( h\big(B_t - B_s + B_s\big) \vert \mathcal{F}_s \Big) 
+\end{equation*}
+
+$B_s$ is $\mathcal{F}_s$ measurable, while the increment $B_t-B_s \indep \mathcal{F}_s$, hence we can apply the freezing lemma 
+
+\begin{gather*}
+    \Phi(x) = E\Big( h(B_t-B_s+x) \Big) = \frac{1}{\big(2 \pi (t-s)\big)^{d/2}}\int_{\mathbb{R}} h(y) \exp{-\frac{\vert x-y \vert^2}{2(t-s)}} dy \\
+    E\Big( h(B_t) \vert \mathcal{F}_s \Big) = \frac{1}{\big(2 \pi (t-s)\big)^{d/2}}\int_{\mathbb{R}} h(y) \exp{-\frac{\vert B_s-y \vert^2}{2(t-s)}} dy
+\end{gather*}
+
+Keep in mind that, if in the example above we had used a larger $\sigma-$algebra like $\sigma(B_s) \subset \mathcal{H} \subset \mathcal{F}$, the conditional expectation would have been
+
+\begin{equation*}
+    E\Big( h(B_t) \big\vert \mathcal{H} \Big) = E\Bigg( E\Big( h(B_t) \big\vert F_s \Big) \Big\vert \mathcal{H} \Bigg) = E\Big( \Phi(B_s) \big\vert \mathcal{H} \Big) = \Phi(B_s) 
+\end{equation*}
+
+Consider a process $X =\big(\Omega, \mathcal{F}, (\mathcal{F}_t)_t, (X_t),\mathbb{P}\big)$ with finite integral and $\mathcal{F}-$measurable. Given a sub $\sigma-$algebra $\mathcal{D} \subset \mathcal{F}$ we want to prove that, under suitable conditions, the following holds
+
+\begin{equation}
+    E\Bigg( \int_0^T X_s ds \Big\vert \mathcal{D} \Bigg) = \int_0^T E\Big( X_s \big\vert \mathcal{D} \Big) ds
+\end{equation}
+
+To prove this, we will first prove a very useful lemma. For any bounded and $\mathcal{D}-$measurable random variable $W$, we have the following
+
+\begin{gather*}
+    E\Bigg( W \int_0^T X_s  ds \Bigg) = \int_{\Omega} W \int_0^T X_s ds d\mathbb{P} = \int_0^T \int_{\Omega} X_s W d\mathbb{P} ds = \\
+    = \int_0^T E\big( X_s W \big) ds = \int_0^T E\big( E(X_s\vert \mathcal{D}) W \big) ds = \int_{\Omega} \int_0^T  E(X_s \vert \mathcal{D}) W ds d\mathbb{P} = \\
+    = E\Bigg( \int_0^T E\big( X_s \vert \mathcal{D} \big) ds W\Bigg) \\
+    \implies E\Bigg( W \int_0^T X_s  ds \Bigg) = E\Bigg( \int_0^T E\big( X_s \vert \mathcal{D} \big) ds W\Bigg)
+\end{gather*}
+
+Now let's carefully analyze what we have just written: on the left hand side, we have the expected value of a random variable, $A = \int_0^T X_s ds$, multiplied by a bounded and $\mathcal{D}-$measurable $W$; on the right hand side, we have the expectation of another random variable $B = \int_0^T E(X_s \vert \mathcal{D}) ds$, multiplied by the very same $W$. But this is the definition of conditional expectation, hence
+
+\begin{gather*}
+    E(A W) = E(B W) \;\;\; \forall \; W \; \text{bounded, $\mathcal{D}$-measurable} \;\; \implies \;\; B = E(A \vert \mathcal{D}) \\
+    \implies \int_0^T E(X_s \vert \mathcal{D}) ds = E\Bigg( \int_0^T X_s ds \Big\vert \mathcal{D}\Bigg)
+\end{gather*}
+
+Before jumping in the calculations above, we should have first proven that the integral of the conditional expectation $E(X_s \vert \mathcal{D})$ is indeed well defined and $\mathcal{D}-$measurable. If $E(X_s \vert \mathcal{D})$ has a continuous modification, then the integral is well defined. Moreover,
+
+\begin{equation*}
+    \int_0^T E\big(X_s \vert \mathcal{D} \big) ds = \lim_{n \to \infty} \sum_{k=0}^n E\big(X_{t_i} \vert \mathcal{D}\big) \big( t_{i+1}-t_i \big)
+\end{equation*}
+
+so it's also $\mathcal{D}-$measurable, being the limit of a sequence of $\mathcal{D}-$measurable random variables. 
+
+\subsection{Martingales}
+\begin{definition}
+    A real valued stochastic process $M = \big( \Omega, \mathcal{F}, (\mathcal{F}_t), (M_t), \mathbb{P} \big)$ is a martingale if 
+    \begin{itemize}
+        \item $M_t$ is integrable for every $t \in T$, that is $M_t \in L^1(\Omega,\mathcal{F},\mathbb{P})$
+        \item The conditional expectation $E(M_t \vert \mathcal{F}_s) = M_s$ for every $0 \leq s \leq t$
+    \end{itemize}
+\end{definition}
+
+It's important to fully grasp what the second property actually means, beyond the math and notation: given the information up to time $s$, represented by $\mathcal{F}_s$, the best prediction of the future value $M_t$ is the current value $M_s$. 
+
+Consider the following discrete time example: toss a coin, you either gain one or loose one. Let $X_i$ denote the total win after $i-$tosses. Suppose to observe $X_0 =0, X_1 = 1, X_2 = 2, X_3 = 1, X_4 = 2, X_5 = 3$. Now we ask ourselves, given this set of information, what is the expected total win at the next coin toss?
+
+\begin{gather*}
+    X_6 \vert (X_0,X_1,X_2,X_3,X_4,X_5) = (0,1,2,1,2,3) = \begin{cases}
+        4 \;\; \text{with} \;\; p = \frac{1}{2} \\
+        2 \;\; \text{with} \;\; p = \frac{1}{2} 
+    \end{cases} \\
+    E\big(X_6 \vert (X_0,X_1,X_2,X_3,X_4,X_5)\big) = 4 \frac{1}{2} + 2 \frac{1}{2} = 3 = X_5
+\end{gather*}
+
+If the in the second property above there's hadn't been an equal sign but rather a bigger or smaller, the process would be called a \textit{sub-martingale} or \textit{super-martingale}, respectively. 
+
+\begin{gather*}
+    E(M_t \vert \mathcal{F}_s) \geq M_s \;\; \text{for every} \;\; 0 \leq s \leq t \;\; \implies \;\; \text{sub-martingale} \\
+    E(M_t \vert \mathcal{F}_s) \leq M_s \;\; \text{for every} \;\; 0 \leq s \leq t \;\; \implies \;\; \text{super-martingale}
+\end{gather*}
+
+Let $M_t$ be a $F_t-$martingale, given $E(M_t \vert \mathcal{F}_s) = M_s$ take expectation on both sides and use the tower property
+
+\begin{equation*}
+    E\Big( E(M_t \vert \mathcal{F}_s) \Big) = E\big( M_s \big) = E\big( M_t \big) = \cdot\cdot\cdot = E(M_0)
+\end{equation*}
+
+The expected value of a martingale is constant over time. Moreover, the expected value of a sub-martingale is in decreasing, while the expected value of a super-martingale is increasing over time. It's easy to show that if $M_t$ is an $\mathcal{F}_t-$martingale, then $M_t$ is also a $\mathcal{D}_t-$martingale for every filtration $(\mathcal{D}_t)_t$ such that $\mathcal{G}_t \subseteq \mathcal{D}_t \subseteq \mathcal{F}_t$, where $\mathcal{G}_t$ is the natural filtration. Here's a few example of stochastic processes that are indeed martingales.
+
+\begin{enumerate}
+    \item Let $Y \in L^1(\Omega,\mathcal{F},\mathbb{P})$ be an integrable stochastic process and define $M_t = E(Y \vert \mathcal{F}_t)$. This process is clearly $\mathcal{F}_t-$measurable and integrable for every $t$, in fact:
+    \begin{equation*}
+        E\big( \vert M_t\vert \big) = E\Big( \big\vert E(Y \vert \mathcal{F}_t) \big\vert \Big) \leq E\Big( E\big( \vert Y \vert \big\vert \mathcal{F}_t \Big) = E\big( \vert Y \vert \big) < \infty 
+    \end{equation*}
+
+    Using the tower property of conditional expectation, we can show that $M_t$ also satisfies the second property of martingales
+    \begin{equation*}
+        E(M_t \vert \mathcal{F}_s) = E\big( E(Y \vert \mathcal{F}_t) \vert \mathcal{F}_s \big) = E(Y \vert \mathcal{F}_s) = M_s
+    \end{equation*}
+
+    \item Let $B$ be an $\mathcal{F}_t-$brownian motion. Since $E(\vert B_t \vert) < \infty$, the process is integrable. For $s \leq t$, consider 
+    \begin{equation*}
+        E(B_t \vert \mathcal{F}_s) = E(B_t-B_s+B_s \vert \mathcal{F}_s) = E(B_t-B_s \vert \mathcal{F}_s) + E(B_s \vert \mathcal{F}_s) = E(B_t-B_s)+B_s = B_s
+    \end{equation*}
+
+    \item Given a brownian motion $B$ and a real number $\alpha \in \mathbb{R}$, consider the process $M_t = \exp{B_t - \frac{\alpha^2}{2}t}$. This process is in $L^1$; in fact, recall that if $X \sim \mathcal{N}(\mu,\sigma^2)$, the exponential random variable $\exp{\alpha X}$ is such that  
+    \begin{gather*}
+        E\big(\exp{\alpha X} \big) = e^{\alpha \mu} \exp{\frac{\alpha^2}{2} \sigma^2} \\
+        E\big( \vert M_t \vert \big) = E\Big( \exp{ \alpha B_t - \frac{1}{2}\alpha^2 t} \Big) = \exp{-\frac{1}{2}\alpha^2 t} E\Big( \exp{\alpha B_t} \Big) = \exp{-\frac{1}{2}\alpha^2} \exp{\frac{1}{2}\alpha^2} = 1
+    \end{gather*}
+
+    Now, we just need to check that the second condition on conditional expectation holds
+
+    \begin{gather*}
+        E(M_t \vert \mathcal{F}_s) = E\Big( \exp{\alpha B_t - \frac{1}{2}\alpha^2 t} \big\vert \mathcal{F}_s \Big) = \exp{-\frac{1}{2}\alpha^2 t} E\Big( \exp{\alpha B_t}  \vert \mathcal{F}_s \Big) \\
+        = \exp{-\frac{\alpha^2}{2}t} E\Big( \exp{\alpha (B_t-B_s) + \alpha B_s} \big\vert \mathcal{F}_s \Big) = \exp{-\frac{\alpha^2}{2}t} \exp{\alpha B_s} E\Big( \exp{\alpha (B_t-B_s)} \Big) = \\
+        = \exp{\alpha B_s} \exp{-\frac{\alpha^2}{2} t} \exp{\frac{\alpha^2}{2}(t-s) } = \exp{\alpha B_s - \frac{1}{2}\alpha^2 s} = M_s
+    \end{gather*}
+\end{enumerate}
+
+Because of the linearity of expectation, given two real numbers $\alpha,\beta \in \mathbb{R}$ and two martingales $M$ and $N$, the sum $\alpha M + \beta N$ is also a martingale. The same holds for super and sub-martingales if $\alpha,\beta > 0$.
+In this case, the numbers must be positive; indeed, if $M_t$ is a super-martingales, then $-M_t$ is a sub-martingales and vice versa. 
+
+\begin{proposition}
+    Let $\phi : \mathbb{R} \to \mathbb{R}$ be a convex function and $\phi(M_t) \in L^1$, for every $t$.
+    \begin{itemize}
+        \item If $M_t$ is a martingale, then $\phi(M_t)$ is a sub-martingale
+        \item If $M_t$ is a sub-martingale and $\phi$ is increasing, then $\phi(M_t)$ is a sub-martingale.
+    \end{itemize}
+\end{proposition}
+\begin{proof}
+    To prove these two statements, we use Jensen's inequality. For $s \leq t$, let $M_t$ be a martingale and consider
+    \begin{equation*}
+        \phi(M_s) = \phi\Big( E(M_t \vert \mathcal{F}_s \Big) \leq E\big( \phi(M_t) \vert \mathcal{F}_s \big)
+    \end{equation*}
+    Now, assume $M_t$ to be a sub-martingale and $\phi$ to be an increasing function. Indeed, using again Jensen inequality
+    \begin{equation*}
+        \phi(M_s) \leq \phi\Big( E(M_t \vert \mathcal{F}_s) \Big) \leq E\Big( \phi(M_t) \vert \mathcal{F}_s \Big) \;\; \implies \;\; \text{$\phi(M_t)$ is a sub-martingale}
+    \end{equation*}
+\end{proof}
+
+A martingale $M_t$ is in $L^p$, for $p \geq 1$, if the expected value $E\big( \vert X \vert^p \big) < \infty$, for every $t$. By definition, all martingales are in $L^1$. Recall that, since the function $\phi(x) = x^p$ is convex for $p \geq 1$, than if $M_t$ is a martingale then $\phi(M_t) = \vert M_t \vert^p$ is a sub-martingale. We have added the absolute value because $M_t$ may as well be negative. A more strong notions is \textit{boundness}; a martingale $M_t$ is bounded in $L^p$ if 
+
+\begin{equation*} 
+    \sup_{t \in T} E\big( \vert M_t \vert^p \big) < \infty
+\end{equation*}
+
+The examples of martingales considered above are all bounded martingales. For instance, take $Y \in L^p$ and $M_t = E(Y \vert \mathcal{F}_t)$. The expected value of the modulus
+
+\begin{equation*}
+    E\big( \vert M_t \vert^p \big) = E\Big( \big\vert E(Y\vert \mathcal{F}_t) \big\vert^p \Big) \leq E\big( \vert Y \vert^p \big) < \infty 
+\end{equation*}
+
+where we've used Jensen inequality and the tower property of conditional expectation. The brownian motion is also a bounded martingale, provided that the time interval we are considering is bounded as well. Take $p = 2$, we know $E(B_t^2) = t$, so if $t \in [0,T]$ the supremum is just $T$. Last, consider the exponential process with $p > 1$. The case for $p = 1$ is trivially bounded
+
+\begin{gather*}
+    M_t = \exp{\alpha B_t - \frac{1}{2}\alpha^2 t} \\
+    E(M_t^p) = E\Big( \exp{p \alpha B_t - p \frac{\alpha^2}{2}t} \Big) = \exp{-p\frac{\alpha^2}{2}t} E\Big( \exp{p \alpha B_t} \Big) = \\
+    = \exp{-p\frac{\alpha^2}{2}t+p^2 \frac{\alpha^2}{2}t} = \exp{\frac{1}{2}\alpha^2 t(p^2-p)}
+\end{gather*}
+
+Again, if the time interval is bounded, the also $M_t$ will be bounded in $L^p$. 
+
+\begin{theorem}[Doob's Inequality]
+        Let $M = (\Omega, \mathcal{F}, (\mathcal{F}_t)_t, (M_t), \mathbb{P})$ be a right-continuous martingale, bounded in $L^p$, with $p > 1$. Consider $M^* = \sup_{t\geq 0} \vert M_t \vert$. Then 
+        \begin{itemize}
+            \item The random variable $M^* \in L^p$
+            \item The $L^p-$norm of $M^*$ is limited from above by
+            \begin{gather}
+                \Vert M^* \Vert_p \leq \frac{p}{p-1} \sup_{t\geq 0} \Vert M_t \Vert_p \notag \\
+                E\Big( \sup_{t \geq 0} \vert M_t \vert^p \Big) \leq \Big( \frac{p}{p-1} \Big)^p \sup_{t \geq 0} E\Big( \vert M_t \vert^p \Big)
+            \end{gather}
+        \end{itemize}
+\end{theorem}
+
+\begin{definition}
+    A family of random variables $X_t$ is said to be uniformly integrable if 
+    \begin{equation}
+        \lim_{\lambda \to \infty} \sup_{t \in T} \int_{\vert X_t \vert \geq \lambda} \vert X_t \vert d\mathbb{P} = 0
+    \end{equation}
+\end{definition}
+
+The most trivial example of a family of uniformly integrable random variables is $\{ X \}$, where $X \in L^1$. The family of conditional expectation $E(X \vert \mathcal{D}_t)$, where $\mathcal{D}_t \subset \mathcal{F}$ is also uniformly integrable. The same is true for a \textit{dominated} family of random variables: take $X_t \in L^1$ for every t. If there exists a $Y \in L^1$ such that $\vert X_t \vert \leq Y$ for every $t \in T$, then $(X_t)$ is uniformly integrable. Finally, if there exists a borelian function $g : \mathbb{R}^+ \to \mathbb{R}^+$ such that
+
+\begin{equation*}
+    \lim_{t \to \infty} \frac{g(t)}{t} = \infty \;\;\; \text{and} \;\;\; \sup_{t \in T} E\Big( g\big(\vert X_t \vert\big) \Big) < \infty
+\end{equation*}
+
+then the family $(X_t) $ is uniformly integrable. This last case is of particular importance, because it proves that every $L^p-$bounded family of random variables $(X_t)$ is uniformly integrable. To see that, just consider the function $g(t) = t^p$. 
+
+\begin{theorem}
+    Take $X,X_n \in L^1$. The following conditions are equivalent 
+    \begin{itemize}
+        \item The sequence $X_n$ converges to $X$ in $L^1$, i.e. $E(\vert X_n - X\vert) \to 0$. 
+        \item The sequence $X_n$ converges to $X$ in probability and $(X_n)$ is uniformly integrable. 
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}
+    Let $M = (\Omega, \mathcal{F},(\mathcal{F}_t),(M_t),\mathbb{P})$ be a right continuous super-martingale. If the supremum of the negative part in a semi-bounded interval $[a,b) \subseteq [a,\infty)$ is finite, then
+
+    \begin{equation*}
+        \sup_{t \in [a,b)} E(M_t^-) < \infty \;\; \implies \;\; \text{there exists} \lim_{t \uparrow b} M_t \;\; \text{and such limit is in } L^1
+    \end{equation*}
+\end{theorem}
+
+Recall that the condition on the supremum of the negative part is equivalent to requiring that the supremum of the modulus is finite. To see this, first note that the latter implies the former and vice versa
+
+\begin{gather*}
+    \vert M_t \vert = M_t^+ + M_t^- \;\;\;\; \vert M_t \vert < \infty \; \implies \; M_t^- < \infty \\
+    \vert M_t \vert = M_t^+ - M_t^- + M_t^- + M_t^- = M_t + 2 M_t^- \;\; \text{taking expectation} \\
+    E(\vert M_t \vert) = E(M_t) + 2 E(M_t^-) \leq E(M_0) + 2 E(M_t^-)
+\end{gather*}
+
+where we've used the fact that $M_t$ is a super martingale and therefore the expectation is decreasing over time. 
+
+\begin{corollary}
+    If $(M_t)$ is a right-continuous and positive martingale, then there exists a $F_{\infty}-$measurable random variable $M_{\infty}$ such that $M_t \to M_{\infty}$ almost surely and $M_{\infty} \in L^1$. 
+\end{corollary}
+
+\begin{theorem}[Convergence in $L^1$]
+    Let $M$ be a right-continuous martingale. Then the following conditions are equivalent:
+    \begin{itemize}
+        \item $(M_t)$ is uniformly integrable
+        \item There exists a $M_{\infty} \in L^1(\Omega,\mathcal{F}_{\infty}, \mathbb{P})$ such that $M_t \to M_{\infty}$ $\mathbb{P}-$almost surely and in $L^1$. 
+        \item There exists $Y \in L^1(\Omega,\mathcal{F},\mathbb{P})$ such that $M_t = E(Y \vert \mathcal{F}_t)$. 
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+\begin{theorem}[Convergence in $L^p$]
+    Let $(M_t)$ be a right-continuous martingale. The following conditions are equivalent: 
+    \begin{itemize}
+        \item $(M_t)$ is bounded in $L^p$
+        \item There exists the limit $\lim_{t \to \infty} M_t = M_{\infty}$ almost surely and $L^p$
+        \item There exists a $Y \in L^p(\Omega, \mathcal{F}, \mathbb{P})$ such that $M_t = E(Y \vert \mathcal{F}_t)$
+    \end{itemize}
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+Now that we have a consistent theory of martingale convergence, we can discuss wether the examples of martingales provided so far actually converge to something. Let $M_t = E(Y \vert \mathcal{F}_t)$, for $Y \in L^1(\Omega,\mathcal{F},\mathbb{P})$ and $\mathcal{F}_t$ a proper filtration. This case is exactly one of the statements of the theorem of convergence in $L^1$; hence, we can conclude that there exists an almost surely and $L^1$ limit. 
+
+The same can not be said about the brownian motion $B_t$, since there exists no $Y$ such that $B_t = E(Y \vert \mathcal{F}_t)$ nor it is uniformly integrable. Lastly, let's consider the exponential process $M_t = \exp{\alpha B_t -\frac{\alpha^2}{2}t}$, where $B_t$ is a brownian motion. 
+
+\begin{gather*}
+    M_t = \exp{\Big(\alpha \frac{B_t}{t} -\frac{\alpha^2}{2}\Big)t} \;\;\; \frac{B_t}{t} \to 0 \;\; \text{almost surely} \\
+    \lim_{t \to \infty} M_t = M_{\infty} = 0 \;\; \text{almost surely}
+\end{gather*}
+
+However, note that $M_t \neq E(M_{\infty} \vert \mathcal{F}_t)$, since the left hand side is positive while the right hand side is zero. The process doesn't even converge in $L^1$, in fact
+
+\begin{equation*}
+    E(\vert M_t - M_{\infty} \vert) = E\Big( \exp{\alpha B_t - \frac{\alpha^2}{2}t} \Big) = 1 \nrightarrow 0 
+\end{equation*}
+
+At the beginning of this chapter, we went through some results about the quadratic variation of stochastic process, focusing on the brownian motion. Now, we can write a more general and precise statement using the theory of martingales.
+
+\begin{theorem}[Doob]
+    Let $(M_t)$ be a square integrable and continuous martingale, with respect to the filtration $(\mathcal{F}_t)$, augmented with the negligible events of $\mathcal{F}_{\infty}$. Then 
+    \begin{enumerate}
+        \item There exists a unique stochastic process $(A_t)_t$ increasing, continuous and $\mathcal{F}_t-$adapted such that $A_0 = 0$ almost surely and $M_t^2 - A_t$ is an $\mathcal{F}_t-$martingale
+        \item This process $A_t$ is given by the limit in probability of 
+        \begin{equation}
+            A_t = \mathbb{P}-\lim_{\vert \pi \vert \to 0} \sum_{k=0}^{m-1} \vert M_{t_{k+1}} - M_{t_k} \vert^2
+        \end{equation}
+    \end{enumerate}
+\end{theorem}
+
+where $\pi = (t_0,t_1,...,t_n)$ is a partition of the time interval $[0,t]$. The second point makes it clear that $A_t$ is in fact the quadratic variation of the martingale $A_t = \langle M_t \rangle_t$. This is also called the \textit{compensator} of $M_t^2$ in the sense that $M_t^2 - A_t$ is a martingale, while $M_t^2$ in general is not (it is in fact a submartingale). 
+
+Take for instance a brownian motion $M_t = B_t$, which is indeed a continuous and square integrable martingale. We have previously computed that $\langle B_t \rangle_t = t$. Moreover, on the compact interval $[0,t]$ the series $s_{\pi}$ converges in $L^2$ to
+
+\begin{equation*}
+    s_{\pi} = \sum_{k=0}^{m-1} \vert B_{t_{k+1}}-B_{t_k} \vert^2 \to t 
+\end{equation*}
+
+But the convergence in $L^2$ implies the convergences in probability; hence, we can conclude that the compensator of $B_t^2$ is in fact $t$. It's easy to check that $B_t^2-t$ is a martingale. 
+
+How regular can the paths of a martingale be? We have proven before that square integrable stochastic processes with differentiable or Lipschitz-continuous trajectories have finite variation. Could such a process ever be a martingale? The answer is no, unless is process is trivial (constant). For a process $M_t$ to have finite varation, the second order variation $\langle M_t \rangle_t = 0$ must be zero. But in the case of square integrable martingales, this is only true if $M_t$ is constant. Therefore, we conclude that non trivial square integrable, continuous processes with either differentiable or Lipschitz-continuous paths can not be martingales.
+
+\begin{proposition}
+    If $(M_t)$ is a square integrable and continuous martingale then $M_t^2$ is a sub-martingale and 
+    \begin{equation}
+        M_t^2 = \big(M_t^2-\langle M \rangle_t\big) + \langle M \rangle_t
+    \end{equation}
+    The first parenthesis is itself a martingale, while the other term is an increasing process with regular paths. 
+\end{proposition}
+
+\begin{theorem}[Optimal Stopping]
+Let $(M_t)$ be a right-continuous martingale and consider two stopping times $\sigma,\tau$ such that $\sigma \leq \tau \leq K$ almost surely, for $K$ positive constant. Then
+\begin{itemize}
+    \item The stopped processes $M_{\sigma},M_{\tau} \in L^1$ are integrable  
+    \item $E(M_{\tau} \vert \mathcal{F}_{\sigma}) = M_{\sigma}$
+\end{itemize}
+\end{theorem}
+
+This theorem provides many important corollaries. For starters, if we choose a deterministic time $\sigma = 0$, then the second statement ensures that $E(M_{\tau} \vert \mathcal{F}_0) = M_0$ and $E(M_{\tau}) = E(M_0)$. If we remove the assumption $\sigma \leq \tau$, then the property still holds, but with the slight modification $E(M_{\tau} \vert \mathcal{F}_{\sigma}) = M_{\tau \wedge \sigma}$
+
+\begin{corollary}
+    Let $(M_t)$ be a right continuous martingale and $\tau$ a stopping time. Then $(M_{t \wedge \tau})$ is an $\mathcal{F}_t-$martingale.  
+\end{corollary}
+\begin{proof}
+    Consider a stopping time $\tau$, then $t \wedge \tau$ is also a stopping time for any $t > 0$. By the corollary above, the martingale-like property still holds, for any $0 \leq s \leq t$ we have 
+    \begin{equation*}
+        E\big(M_{t \wedge \tau} \vert \mathcal{F}_s \big) = M_{t \wedge \tau \wedge s} = M_{\tau \wedge s}
+    \end{equation*}
+    Hence $(M_{t \wedge \tau})$ is a martingale. 
+\end{proof}
+
+Note that in the statement of the optimal stopping theorem, both stopping times are required to be almost surely bounded; an assumption that is no longer necessary in the next corollary. Let's make things more clear: if $M_t$ is a continuous $\mathcal{F}_t-$martingale and $\tau$ an almost surely finite stopping time, then
+\begin{enumerate}
+    \item The process $(M_{t \wedge \tau})$ is an $\mathcal{F}_t-$martingale
+    \item For every $\omega \in \Omega$, the process $M_{t \wedge \tau} \to M_{\tau}$ as $t$ goes to $t \to \infty$
+    \item By the tower property, $E(M_{t \wedge \tau} ) = E(M_0)$
+\end{enumerate}
+
+However, we can not say that $E(M_{\tau}) = E(M_0)$, like we would in the case of a almost surely bounded stopping time. For instance, consider the following example
+
+\begin{equation*}
+    M_t = B_t \;\; \text{Brownian Motion} \;\;\;\; \tau = \inf\big\{ t \geq 0 : B_t \geq a\big\}
+\end{equation*}
+
+$\tau$ is a stopping time, since it's the exit time from and open interval for a continuous process. Moreover, $\tau$ is almost surely \textit{finite}, but not bounded, so corollary $2.12.1$ applies: $B_{t \wedge \tau}$ is a martingale and $E(B_{t \wedge \tau}) = E(B_0) = 0$. However, the expected value of the stopped process $B_{\tau}$ is clearly non-zero, since $B_{\tau} = a$ almost surely, hence $E(B_{\tau}) = a$. 
+
+We now see an important application of the stopping corollary, applied to the brownian motion. Let $M_t = B_t$ be a $\mathcal{F}_t-$brownian motion, with right-continuous filtration, and for $a,b > 0$ define 
+
+\begin{equation*}
+    \tau = \inf\big\{ t \geq 0 : B_t \notin [-a,b] \big\}
+\end{equation*}
+
+This is an exit time from a closed interval, $B_t$ is continuous and $(\mathcal{F}_t)$ is right-continuous by hypothesis; hence, $\tau$ is a stopping time. For the properties of a brownian motion, $\tau$ is almost surely finite. Therefore, we can apply the stopping corollary to conclude that $B_{t \wedge \tau}$ is a martingale and $B_{t \wedge \tau} \to B_{\tau}$. 
+By the dominated convergence theorem
+
+\begin{gather*}
+    0 = E(B_0) = E(B_{t \wedge \tau}) \;\;\;\; \lim_{t \to \infty} E(B_{t \wedge \tau}) = E\Big( \lim_{t \to \infty} B_{t \wedge \tau} \Big) = E(B_{\tau}) \\
+    \Rightarrow \;\; E(B_{\tau}) = b \mathbb{P}(B_{\tau} = b) - a \mathbb{P}(B_{\tau} = -a) = 0
+\end{gather*}
+
+Substituting the fact that $\mathbb{P}(B_{\tau} = b) + \mathbb{P}(B_{\tau}=a) = 1$, we can derive the explict formulas for this probabilities 
+
+\begin{equation*}
+    \mathbb{P}(B_{\tau} = -a) = \frac{b}{a+b} \;\;\;\; \mathbb{P}(B_{\tau} = b) = \frac{a}{a+b}
+\end{equation*}
+
+To end this section, we shall mention that the brownian motion can be characterized in many different ways; a particularly important one relates the brownian motion with another process, which is in fact a martingale. 
+
+\begin{theorem}
+    Let $X = (\Omega,\mathcal{F},(\mathcal{F}_t),(X_t),\mathbb{P})$ be a $d-$dimensional stochastic process. Then it is a brownian motion if and only if 
+    \begin{enumerate}
+        \item $X_0 = 0$ almost surely
+        \item For every $\lambda \in \mathbb{R}^d$, the process $Y_t$ is martingale
+        \begin{equation*}
+            Y_t^{\lambda} = \exp{i \langle \lambda, X_t \rangle + \frac{1}{2}\vert \lambda \vert^2 t}
+        \end{equation*}
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Suppose $X_t$ is a $\mathcal{F}_t-$brownian motion. The first condition is obivious, while the second can be proven by a straightforward calculation
+
+    \begin{gather*}
+        E\Big( \exp{i \langle \lambda, X_t \rangle + \frac{1}{2}\vert \lambda \vert^2 t} \Big\vert \mathcal{F}_s \Big) = E\Big( \exp{i \langle \lambda, X_t-X_s+X_s \rangle + \frac{1}{2} \vert \lambda \vert^2 t}  \Big\vert \mathcal{F}_s \Big) = \\ 
+        = \exp{i \langle \lambda, X_s \rangle + \frac{1}{2} \vert \lambda \vert^2 t} E\Big( \exp{i \langle \lambda, X_t-X_s \rangle} \Big\vert \mathcal{F}_s \Big) = \\ 
+        = \exp{i \langle \lambda, X_s \rangle + \frac{1}{2} \vert \lambda \vert^2 t} \exp{-\frac{1}{2} \vert\lambda\vert^2 (t-s)} = \exp{i \langle \lambda, X_s \rangle + \frac{1}{2} \vert \lambda \vert^2 s} = Y_s
+    \end{gather*}
+
+    Now, suppose the process $Y_t^{\lambda}$ is indeed a martingale. We can take the conditional expectation with respect to $\mathcal{F}_s$, using the martingale property 
+
+    \begin{gather*}
+        E\Big( \exp{i \langle \lambda, X_t \rangle + \frac{1}{2}\vert \lambda \vert^2 t } \Big\vert \mathcal{F}_s \Big) = \exp{-\frac{1}{2} \vert \lambda \vert^2 (t-s)} \\
+        E\Big( \exp{i \langle \lambda, X_t-X_s \rangle }\Big) = \exp{-\frac{1}{2}\vert \lambda \vert^2 (t-s)^2}
+    \end{gather*}
+
+    This is exactly the characteristic function of a gaussian variable, $\phi_{X_t-X_s}(\lambda) = \exp{-\frac{1}{2}\vert \lambda \vert^2 (t-s)}$ with mean $\mu = 0$ and variance $\Gamma = (t-s)\mathbb{I}$. So we conclude that the increment $X_t - X_s \sim \mathcal{N}(0,t-s)$. To prove increments are independent from $\mathcal{F}_s$, we need a proposition, whose proof can be found on the textbook, that states: if a random variable $X$ is such that for every $\lambda$ the conditional expectation
+
+    \begin{equation*}
+        E(\exp{i \langle \lambda, X \rangle } \vert \mathcal{D}) = E(\exp{i \langle \lambda, X \rangle}) \;\; \text{a.s.}
+    \end{equation*}
+
+    then $X$ is independent of $\mathcal{D}$. This condition is clearly satisfied, hence we conclude that $X_t-X_s \indep \mathbb{F}_s$; in particular, $X_t$ is a brownian motion. 
+\end{proof}
+
+\subsection{Stochastic Calculus}
+We have so far introduced many different concepts, all of which will become important in a few pages. However, let's remark what the initial goal of this whole chapter was: we want to be able to define differential equations with a \textit{noise} term, which will be represented by a brownian motion. In general, stochastic differential equations are written in the form
+
+\begin{equation*}
+    d X_t = b(t,X_t)dt + \sigma(t,X_t) dB_t \;\; \implies \;\; X(t) = X(0) + \int_0^t b(s,X_s) ds + \int_0^t \sigma(s,X_s) dB_s
+\end{equation*}
+
+It's time to define what we mean by stochastic integral, following a similar construction to classical analysis. By definition of Riemann integrals, given a function $f : \mathbb{R} \to \mathbb{R}$ then
+
+\begin{equation*}
+    \int_0^t f(s) ds = \lim_{n \to \infty} \sum_{k=0}^{n-1} f(s_k) \big( t_{k+1} - t_k)
+\end{equation*}
+where $0 = t_0 < t_1 < \cdot\cdot\cdot < t_n = t$ is a partition of the time interval $[0,t]$ and $\{s_k\}$ a sub-partition of the very same interval, such that $t_k \geq s_k \geq t_{k+1}$. We basically approximate the area under a curve by the sum of rectangles with base $(t_k,t_{k+1})$ and height $f(s_k)$. In the construction of the Lebesgue integral a different path is taken: first, the integral is defined for \textit{simple} functions, i.e. piecewise constant, and later extended to continuous functions via an approximation argument. We will take a very similar approach in here. 
+
+\begin{definition}
+    Processes that will be the integrands of stochastic integrals will generally belong to the \textit{space of integrable process}. Given two real number $a < b$, we define $M^p[a,b]$ as the space of all real-valued processes $X$ such that
+    \begin{itemize}
+        \item $X$ is progressively measurable
+        \item The expected value of the integral of the modulus is finite
+        \begin{equation*}
+            E\Bigg( \int_a^b \vert X_s \vert^p ds \Bigg) < \infty
+        \end{equation*}
+        In other words, the process must belong to the space $X \in L^2(\Omega \times [a,b], \mathcal{F} \otimes \mathcal{B}, \mathbb{P} \otimes \mathcal{L})$. Two process $X,\Tilde{X} \in M^p[a,b]$ are identifiable if $X = \Tilde{X}$ $\mathbb{P}\otimes \mathcal{L}-$almost surely.  
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    A process $X$ is an elementary process if, for some partition of the interval $a = t_0 < t_1 < \cdot\cdot\cdot < t_n = b$,  the process can be written as 
+    \begin{equation*}
+        X_t(\omega) = \sum_{k=0}^{n-1} X_k(\omega) \mathbb{I}_{[t_k, t_{k+1}]}(\omega)
+    \end{equation*}
+    The partition must be independent on $\omega$. It's easy to see that elementary process are real and $\mathcal{F}_k-$measurable. 
+\end{definition}
+
+The paths of elementary processes are piecewise constant functions of time. In particular, they are right-continuous: at the same time, they are also $\mathcal{F}-$adapted, hence progressively measurable. Lastly, $X \in L^p([a,b])$ for any $p \geq 1$. 
+
+\begin{proposition}
+    Elementary processes belong to $X \in M^p[a,b]$ if and only if $X_k \in L^p(\Omega)$, for every $k = 0,...,n-1$. 
+\end{proposition}
+\begin{proof}
+    We have mentioned above that $X$ is progressively measurable. Let's check the condition on the expected value
+    \begin{equation*}
+        E\Bigg( \int_a^b \vert X_s \vert^p ds \Bigg) = E\Bigg( \int_a^b \Big\vert \sum_k X_k \mathbb{I}_{[t_k,t_{k+1}]} \Big\vert^p ds \Bigg) = \sum_k E(\vert X_k \vert^p) \big( t_{k+1}-t_k \big)  
+    \end{equation*}
+    Where we could factor out the sum because the time intervals do not overlap, so the products or indicator functions are zero. The last term is finite if and only if $X_k \in ^p(\Omega)$ for any $k$. 
+\end{proof}
+
+By the definition, it's clear that any linear combination of elementary processes is still an elementary process. Hence, we can build the vector subspace $E^p[a,b] \subset M^p[a,b]$, as the set of all $M^p[a,b]$ elementary processes. 
+
+\begin{definition}
+    Let $X \in E^2[a,b]$ be an elementary process. The \textbf{stochastic integral} of $X$ with respect to the brownian motion $B$ is the random variable 
+    \begin{equation}
+        \int_a^b X_s dB_s = \sum_{k=0}^{n-1} X_k \big( B_{t_{k+1}} - B_{t_k} \big)
+    \end{equation}
+\end{definition}
+
+\begin{lemma}
+    Let $X \in E^2[a,b]$ be an elementary process. Then 
+    \begin{enumerate}
+        \item The stochastic integral from $a$ to $b$ is a random variable in $L^2(\Omega,\mathbb{F}_b,\mathbb{P})$. 
+        \item The conditional expectation with respect to $\mathcal{F}_a$ of the stochastic integral is zero
+        \begin{equation}
+            E\Bigg( \int_a^b X_s d B_s \Big\vert \mathcal{F}_a \Bigg) = 0 \;\; \implies \;\; E\Bigg( \int_a^b X_s d B_s\Bigg) = 0 
+        \end{equation}
+        \item The following property is known as \textit{Ito Isometry}
+        \begin{equation*}
+            E\Bigg[ \Bigg(\int_a^b X_s d B_s \Bigg)^2 \big\vert \mathcal{F}_a \Bigg] = E\Bigg( \int_a^b X_s^2 d B_s \Big\vert \mathcal{F}_a \Bigg)
+        \end{equation*}
+    \end{enumerate}
+\end{lemma}
+\begin{proof}
+    To prove that the stochastic integral is in $L^2(\Omega)$, we just apply the definition: 
+    \begin{gather*}
+        \Bigg( \int_a^b X_t d B_t \Bigg)^2 = \Bigg( \sum_{k=0}^{n-1} X_k \big( B_{t_{k+1}}-B_{t_k} \big) \Bigg)^2 = \sum_{k,l} X_k X_l \big( B_{t_{k+1}}-B_{t_k} \big) \big( B_{t_{l+1}}  - B_{t_l} \big) = \\ 
+        = \sum_k X_k^2 \big(B_{t_{k+1}}-B_{t_k} \big)^2 + \sum_{k \neq l} X_k X_l \big( B_{t_{k+1}} -  B_{t_k} \big) \big( B_{t_{l+1}}-B_{t_l} \big)
+    \end{gather*}
+
+    We take the expected value of both sides: the first term, can be factored into two parts, because the increments are independent of $X_k^2$; the second term can be rewritten using Holder inequality
+
+    \begin{gather*}
+        E\Bigg( \sum_k X_k^2 \big(B_{t_{k+1}}-B_{t_k} \big)^2 \Bigg) = \sum_k E(X_k^2) E\Big( (B_{t_{k+1}}-B_{t_k} )^2\Big) = \sum_k E(X_k^2) (t_{k+1}-t_k) < \infty
+    \end{gather*}
+    \begin{gather*}
+        E\Big( X_k (B_{t_{k+1}}-B_{t_k}) X_l (B_{t_{l+1}}-B_{t_l}) \Big) \leq E\Big( X_k^2 (B_{t_{k+1}}-B_{t_k})^2 \Big)^{\frac{1}{2}} E\Big( X_l^2 (B_{t_{l+1}}-B_{t_l})^2 \Big)^{\frac{1}{2}} < \infty
+    \end{gather*}
+    Hence we can conclude that the stochastic integral in indeed in $L^2(\Omega)$. Onto the second result, we can use the definition and later on imply the tower property inside to get
+    \begin{gather*}
+        E\Bigg( \int_a^b X_s d B_s \Big\vert \mathcal{F}_a \Bigg) = E\Bigg( \sum_k X_k (B_{t_{k+1}}-B_{t_k}) \Big\vert \mathcal{F}_a \Bigg) = \\
+        = \sum_{k} E\Bigg( E\Big( X_k (B_{t_{k+1}} - B_{t_k}) \big\vert \mathcal{F}_k\Big)  \Big\vert \mathcal{F}_a  \Bigg) = \sum_k E\Bigg( X_k E\Big(B_{t_{k+1}} - B_{t_k}\Big)  \Big\vert \mathcal{F}_a  \Bigg) = 0
+    \end{gather*}
+
+    Lastly, let's consider the Ito isometry. We exchange summation and expectation sign, adding a terms of products, to later apply the tower property inside of the expectation
+
+    \begin{gather*}
+        E\Bigg[ \Bigg(\int_a^b X_s d B_s \Bigg)^2 \big\vert \mathcal{F}_a \Bigg] = \sum_k E\Big( X_k^2 (B_{t_{k+1}}-B_{t_k})^2 \big\vert \mathcal{F}_a \Big) + 2\sum_{l < k} E\Big( X_l X_k (B_{t_{l+1}} - B_{t_l}) (B_{t_{k+1}}-B_{t_k}) \big\vert \mathcal{F}_a \Big) = \\
+        = \sum_{k} E\Big( X_k^2 E\big( (B_{t_{k+1}}-B_{t_k})^2 \vert \mathcal{F}_k \big) \big\vert \mathcal{F}_a \Big) + 2 \sum_{k < l} E\Big( X_l X_k (B_{t_{l+1}}-B_{t_l}) E( B_{t_{k+1}}-B_{t_k} \vert \mathcal{F}_k) \big\vert \mathcal{F}_a\Big) = \\
+        = \sum_k E\big( X_k^2 (t_{k+1}-t_k) \vert \mathcal{F}_a) = E \Bigg( \int_a^b X_s^2 dt \Big\vert \mathcal{F}_a \Bigg)
+    \end{gather*}
+
+    Taking the expectation on both sides of the equality, one gets the usal way Ito isometry is written 
+
+    \begin{equation}
+        E\Bigg[\Bigg( \int_a^b X_t dB_t \Bigg)^2 \Bigg] = E\Bigg( \int_a^b X_s^2 ds \Bigg)
+    \end{equation}
+\end{proof}
+
+This lemma works because of the very sharp assumptions we've made: $X_k$ is $\mathcal{F}_k-$measurable and $X_k \indep B_{t_{k+1}}-B_{t_k}$. In other words, $X$ is adapted to the same filtration $\mathcal{F}_t$ with respect to which $B$ is a brownian motion. 
+
+The stochastic integral acts as a map from the space $E^2[a,b]$ to $L^2(\Omega,\mathcal{F}_b,\mathbb{P})$. In particular, it's a linear operator preserving the norm: 
+
+\begin{gather*}
+    \Vert X \Vert_{E^2} = E\Bigg[\Bigg( \int_a^b X_t dB_t \Bigg)^2 \Bigg] = \Bigg\Vert \int_a^b X_s dB_s \Bigg\Vert_{L^2}
+\end{gather*}
+
+The next step in our construction is to extend the stochastic integral to any process $X \in M^2[a,b]$. To do that, we need a suitable approximation result for deterministic and integrable functions. Let $f \in L^p[a,b]$ be a deterministic function of time. Given an equally spaced partition $a = t_0 < t_1 < \cdot\cdot\cdot < t_n = b$ of the time interval $[a,b]$, such that $t_{k+1}-t_k = \frac{b-a}{n}$, define the simple function 
+
+\begin{equation}
+    (G_n f)(t) = \sum_{k=0}^{n-1} f_k \mathbb{I}_{[t_k,t_{k+1}]}(t)
+\end{equation}
+
+In this definition, we take $f_0 = 0$ while $f_k$ is the mean of the function $f$ over the interval $(t_{k-1},t_k)$ 
+
+\begin{equation*}
+    f_k = \frac{1}{t_k-t_{k-1}} \int_{t_{k-1}}^{t_k} f(s) ds = \frac{n}{b-a} \int_{t_{k-1}}^{t_k} f(s) ds
+\end{equation*}
+
+The $G_n f$ is a simple and right continuous function. Moreover, using Holder inequality one can show that $G_n f \in L^p$ as long as $f \in L^p$ as well. In fact, consider
+
+\begin{gather*}
+    \vert f_k \vert^p = \Bigg\vert \frac{n}{b-a} \int_{t_{k-1}}^{t_k} f(s) ds \Bigg\vert^p \leq \frac{n}{b-a} \int_{t_{k-1}}^{t_k} \vert f(s) \vert^p ds \\
+    \implies \int_a^b \vert G_n f(s) \vert^p ds = \frac{b-a}{n} \sum_{k} \vert f_k \vert^p \leq \frac{b-a}{n} \frac{n}{b-a} \sum_k \int_{t_{k-1}}^{t_k} \vert f(s) \vert^p ds = \int_a^b \vert f(s) \vert^p ds < \infty
+\end{gather*}
+
+This last inequality tells us the the $L^p$ norm of $G_n f$ is smaller than the $L^p$ norm of the function $f$, in formulae $\Vert G_n f \Vert_p \leq \Vert f \Vert_p$. If we think of it in terms of maps between vector spaces, $G_n : f \to G_n f$ this is a contraction in $L^p$. 
+
+\begin{lemma}
+    The sequence $G_n f$ converges in $L^p$ to $f$. 
+\end{lemma}
+\begin{proof}
+     We start making a stronger assumption on the regularity of $f$, which we will later relax: assume $f \in \mathcal{C}^0[a,b]$. Since it's continuous on the compact interval $[a,b]$, it is also uniformly continuous. For every $\epsilon > 0$ there exists an $n$ such that, if $\vert t - s \vert \leq \frac{2}{n}(b-a)$, then 
+
+     \begin{equation*}
+         \big\vert f(t) - f(s) \big\vert \leq \epsilon \;\; \implies \;\; \int_a^{t_1} \vert f(s) \vert^p ds \leq \epsilon^p
+     \end{equation*}
+
+     Let $i \geq 1$, consider two real numbers $s \in [t_i,t_{i+1})$ and $u \in [t_{i-1},t_i)$. Their difference $\vert u - s\vert \leq \frac{2}{n}(b-a)$ so that $\vert f(s) - f(u) \vert \leq \epsilon$. But than, since $f_{i}$ is the average of the function in the time interval $[t_{i-1},t_i)$, we can write
+
+     \begin{equation*}
+         \vert G_n f(s) - f(s) \vert = \Bigg\vert \frac{1}{t_i-t_{i-1}} \int_{t_{i-1}}^{t_i} f(r) ds - f(s) \Bigg\vert
+     \end{equation*}
+
+     By Lagrange mean's value theorem, there exists an element $\xi \in (t_{i-1},t_i)$ such that the integral is actually equal to
+
+     \begin{equation*}
+         \Big\vert \frac{1}{t_{i}-t_{i-1}} f(\xi) (t_i - t_{i-1}) - f(s) \Big\vert = \vert f(\xi) - f(s) \vert \leq \epsilon
+    \end{equation*}
+
+The integral over the whole interval $[a,b]$ can be split into two terms: the first ranging from $a$ to $t_1$ and the second going from $t_1$ to $b$: 
+
+
+\begin{equation*}
+    \int_a^b \Big\vert G_n f(s) - f(s) \Big\vert^p ds = \int_a^{t_1} \vert f(s) \vert^p ds + \int_{t_1}^b \vert G_n f(s) - f(s) \vert^p ds \leq \epsilon^p+\epsilon^p(b-t_1)
+\end{equation*}
+
+So far, we've proven that $G_n f \to f$ in $L^p$ for continuous functions. Now, we consider the general case: recall that $\mathcal{C}^0[a,b]$ is dense in $L^p[a,b]$, so for every $f \in L^p$ there exists a $g \in C^0$ such that $\Vert f - g \Vert_p \leq \epsilon$. 
+
+\begin{gather*}
+    \Vert G_n f - f \Vert_p = \Vert G_n f - G_n g + G_n g - g + g - f \Vert_p \leq \\
+    \leq \Vert G_n f - G_n g \Vert_p + \Vert G_n g - g \Vert_p + \Vert g - f \Vert_p \leq \Vert f - g \Vert_p + 2\epsilon
+\end{gather*}
+
+The last two are obvious from the previous point and from the density of continuous functions in $L^p$; the first one holds because $G_n$, as a map, is a contraction, as mentioned above. Therefore, we can conclude that $\Vert G_n f - f \Vert_p \leq 3\epsilon$. 
+
+\end{proof}
+
+\begin{lemma}
+    Let $X \in M^p[a,b]$, then there exists a sequence $(X_n) \subset M^p$ of elementary processes such that $X_n \to X$ in $M^p$, meaning 
+    \begin{equation*}
+        E\Bigg( \int_a^b \Big\vert X_n(t) - X(t) \Big\vert^p dt \Bigg) \to 0 
+    \end{equation*}
+\end{lemma}
+\begin{proof}
+    Consider a process $X \in M^p[a,b]$; its paths $t \to X_t(\omega)$ are $L^p-$integrable functions \textit{as}. Let $X_n(t) = G_n X(t)$
+
+    \begin{gather*}
+        X_n(t) = \sum_{k=0}^{n-1} X_k^n \mathbb{I}_{[t_k,t_{k+1})}(t) \;\; \text{where} \;\; X_k^n(\omega) = \frac{1}{t_k-t_{k-1}} \int_{t_{k-1}}^{t_k} X(s) ds
+    \end{gather*}
+
+    The quantity $X_k^n$ depends only the values of $X(t)$ from $t_{k-1}$ to $t_k$, hence it's $F_{t_k}-$measurable. But this means that the process $X_n$ is an elementary process. Moreover, by definition $X_n$ is right-continuous and $F_t-$adapted, thus progressively measurable. Lastly, we can conclude that $X_n \in M^p[a,b]$ since 
+
+    \begin{equation*}
+        \int_a^b \vert X_n(s) \vert^p ds \leq \int_a^b \vert X(s) \vert^p ds \;\; \implies \;\; E\Bigg(\int_a^b \vert X_n(s) \vert^p ds \Bigg) \leq E\Bigg( \int_a^b \vert X(s) \vert^p ds \Bigg) < \infty 
+    \end{equation*}
+
+    We now need to prove that $X_n \to X$ in $M^p[a,b]$. To do so, consider the integral of the difference 
+
+    \begin{gather*}
+        \int_a^b \vert X_n(t) - X(t) \vert^p ds \leq C_1(p) \Bigg( \int_a^b \vert X_n(s) \vert^p ds + \int_a^b \vert X(s) \vert^p ds \Bigg) \leq C_2(p) \int_a^b \vert X(s) \vert^p ds < \infty
+    \end{gather*}
+
+    where $C_1,C_2$ are constants that depend of $p$. Therefore, we can use the Dominanted Convergence Theorem to show that
+
+    \begin{equation*}
+        E\Bigg( \int_a^b \vert X_n(t) - X(t) \vert^p ds \Bigg) \to 0
+    \end{equation*}
+\end{proof}
+
+We are ready to define the stochastic integral for $X \in M^2[a,b]$ with respect to the browian motion. Given a sequence of elementary processes $(X_n) \in E^2[a,b]$ such that $X_n \to X$ in $M^2$, we say 
+
+\begin{equation}
+    \int_a^b X_s dB_s = L^2-\lim_{n \to \infty} \int_a^b X_n(s) dB_s
+\end{equation}
+
+This definition is indeed well posed: the stochastic integral of $X_n(s)$ is properly defined, since $X_n$ is an elementary process in $E^2$. Moreover, $X_n \to X$ in $M^2$, so in particular $X_n$ is a Cauchy sequence in $M^2[a,b]$. Thus,
+
+\begin{gather*}
+    E\Bigg( \Bigg\vert \int_a^b X_n dB_s - \int_a^b X_m dB_s \Bigg\vert^2 \Bigg) = E\Bigg( \Bigg\vert \int_a^b (X_n - X_m) dB_s \Bigg\vert^2 \Bigg) = \\
+    = E\Bigg( \int_a^b \vert X_n - X_m \vert^2 ds \Bigg) \to 0 \;\; \text{for} \;\; n,m \to \infty
+\end{gather*}
+
+So the sequence of the stochastic integrals of $X_n$ is a Cauchy Sequence in $L^2(\Omega)$, which is complete. Hence, the sequence also converges and the limit in $(2.4.5)$ exists. 
+
+\begin{theorem}
+    Let $X \in M^2[a,b]$. The following property holds
+    \begin{enumerate}
+        \item The conditional expectation with respect to $\mathcal{F}_a$
+        \begin{equation}
+            E\Bigg( \int_a^b X_s dB_s \Big\vert \mathcal{F}_a \Bigg) = 0 \;\; \implies \;\; E\Bigg( \int_a^b X_s d B_s \Bigg) = 0
+        \end{equation}
+
+        \item Ito Isometry
+        \begin{equation}
+            E\Bigg[ \Bigg( \int_a^b X_s dB_s \Bigg)^2 \Big\vert \mathcal{F}_a \Bigg] = E\Bigg( \int_a^b X_s^s ds \Big\vert \mathcal{F}_a \Bigg) \;\; \implies \;\; E\Bigg[ \Bigg( \int_a^b X_s dB_s \Bigg)^2 \Bigg] = E\Bigg( \int_a^b X_s^s ds \Bigg)
+        \end{equation}
+        \item Let $X_s,Y_s \in M^2[a,b]$ be two processes 
+        \begin{equation}
+            E\Bigg( \int_a^b X_s dB_s \int_a^b Y_s dB_s \Bigg) = \int_a^b E( X_s Y_s) ds 
+        \end{equation}
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    We only prove the second statement \footnote{Yikes!}. Consider a sequence of elementary processes $(X_n) \subset M^2[a,b]$, that converges $X_n \to X$. Ito Isometry is already satisfied by each of the $X_n$, as shown before in this chapter. Let $X_n = G_n X$, so that $G_n X \to X$ in $M^2$ and
+    \begin{gather*}
+        \int_a^b G_n X dB_s \to \int_a^b X_s dB_s \;\; \text{in} \;\; L^2(\Omega) \\
+        \implies \Bigg( \int_a^b G_n X dB_s \Bigg)^2 \to \Bigg( \int_a^b X_s dB_s \Bigg)^2 \;\; \text{in} \;\; L^1(\Omega) 
+    \end{gather*}
+
+    The conditional expectation is a continuous and linear operator on $L^1(\Omega)$. Therefore, we can write that
+    \begin{equation*}
+        E\Bigg[ \Bigg( \int_a^b G_n X dB_s \Bigg)^2 \Big\vert \mathcal{F}_a \Bigg] \to E\Bigg[ \Bigg( \int_a^b X_s dB_s \Bigg)^2 \Big\vert \mathcal{F}_a \Bigg]
+    \end{equation*}
+    We now focus on the right hand side of Ito Isometry: consider the quantity
+
+    \begin{gather*}
+        E\Bigg( \Bigg\vert \int_a^b (G_n X_s)^2 ds - \int_a^b X_s^2 ds \Bigg\vert \Bigg) \leq E\Bigg( \int_a^b \big\vert G_n X_s^2 - X_s^2 \big\vert  ds \Bigg) \leq \\
+        E\Bigg( \int_a^b \big\vert G_n X_s - X_s \big\vert \cdot \big\vert G_n X_s+X_s \big\vert ds \Bigg) \leq \Bigg[ E\Bigg( \int_a^b \vert G_n X_s - X_s\vert^2 ds \Bigg) \Bigg]^{\frac{1}{2}}\Bigg[ E\Bigg( \int_a^b \vert G_n X_s + X_s\vert^2 ds \Bigg) \Bigg]^{\frac{1}{2}}
+    \end{gather*}
+
+    On the last line we've used Holder inequality. The first expected value goes to zero, as $G_n X \to X$, while the second one is bounded, since $\vert G_n X_s + X_s \vert \leq 2X_s$ and $X_s \in M^2[a,b]$ by hypothesis. This concludes our proof, as by continuity of the conditional expectation in $L^1$ and the uniqueness of the limit
+
+    \begin{equation*}
+        E\Bigg( \int_a^b (G_n X_s)^2 ds \big\vert \mathcal{F}_a \Bigg) \to E\Bigg( \int_a^b X_s^2 ds \big\vert \mathcal{F}_a \Bigg)
+    \end{equation*}
+\end{proof}
+
+\begin{corollary}
+    If $X_n,X \in M^2[a,b]$ such that $X_n \to X$ in $M^2[a,b]$, then 
+    \begin{equation*}
+        \int_a^b X_n(s) dB_s \to \int_a^b X_s dB_s \;\; \text{in} \;\; L^2
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    Applying Ito Isometry to expected value of the difference of these two integrals we get
+
+    \begin{equation*}
+        E\Bigg( \Bigg\vert \int_a^b X_n(s) dB_s - \int_a^b X(s) dB_s \Bigg\vert^2 \Bigg) = E\Bigg( \int_a^b \vert X_n(s) - X(s) \vert^2 ds \Bigg) \to 0 
+    \end{equation*}
+\end{proof}
+
+At this point, we are ready to evaluate the our first stochastic integral. Consider a brownian motion $X = B$, which by definition is in $M^2[0,T]$. To calculate the stochastic integral of $B_s$ with respect to itself, we need to find a sequence of elementary process $(X_n) \subset M^2[0,T]$ that converges to $B$. Consider
+
+\begin{gather*}
+    X_n = \sum_{k=0}^{n-1} B_{t_k} \mathbb{I}_{[t_k,t_{k+1})} (t) \\
+    E\Bigg( \int_0^T \vert X_n - B_s \vert^2 ds \Bigg) = E\Bigg( \sum_{k=0}^{n-1} \int_{t_k}^{t_{k+1}} \vert B_{t_k} - B_s \vert^2 ds \Bigg) = \\
+    = \sum_{k=0}^{n-1} \int_{t_k}^{t_{k+1}} E\Big( \vert B_{t_k} - B_s \vert^2 \Big) ds = \sum_{k=0}^{n-1} \int_{t_k}^{t_{k+1}} (s - t_k) ds = \sum_{k=0}^{n-1} \frac{t_{k+1}^2-t_k^2}{2}-t_k(t_{k+1}-t_k) = \\
+    = \sum_{k=0}^{m-1} \frac{(t_{k+1}-t_k)^2}{2} = \frac{1}{2} \frac{T^2}{n^2}n \to 0
+\end{gather*}
+
+where we've assumed that the partition is equally spaced so that $t_{k+1}-t_k = \frac{T}{n}$. We can now compute the stochastic integral as the limit of the following sum
+
+\begin{gather*}
+    \int_a^b B_s dB_s = \lim \int_a^b X_n dB_s = \lim \int_a^b \sum_{k=0}^{n-1} B_{t_k} \mathbb{I}_{[t_k,t_{k+1})} dB_s =\\
+    = \lim \sum_{k=0}^{n-1} \int_{t_k}^{t_{k+1}} B_{t_k} dB_s = \lim \sum_{k=0}^{n-1} B_{t_k} (B_{t_{k+1}}-B_{t_k})
+\end{gather*}
+
+This last series should be fairly well known. In fact, it is possible to rewrite it as 
+
+\begin{equation*}
+    \sum_{k=0}^{n-1} B_{t_k} (B_{t_{k+1}}-B_{t_k}) = \frac{1}{2} \sum_{k=0}^{n-1} B_{t_{k+1}}^2 - B_{t_k}^2 - (B_{t_{k+1}}-B_{t_k})^2 = \\
+    = \frac{1}{2} B_T^2 - \frac{1}{2} \sum_{k=0}^{n-1} (B_{t_{k+1}} - B_{t_k})^2
+\end{equation*}
+
+The first term is telescopic and hence is exactly equal to $B_T^2$ while the second is the definition of quadratic variation of the brownian motion. We have already compute this quantity and as $n \to \infty$ it converges to $T$. Hence, we can state that
+
+\begin{equation*}
+    \int_0^T B_s dB_s = \frac{B_T^2}{2} - \frac{T}{2}
+\end{equation*}
+
+The extra term $-\frac{T}{2}$ makes it clear once and for all that the rules of classical analysis do not apply in the realm of stochastic calculus. 

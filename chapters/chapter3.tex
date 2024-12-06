@@ -1,0 +1,412 @@
+\section{Ito Processes and Ito Differentials}
+Having defined what stochastic integrals are, we can now give precise meanings to stochastic differential equations like
+
+\begin{equation*}
+    dX_t = b(t,X_t) dt + \sigma(t,X_t) dB_t \;\; \implies \;\; X(t)-X(0) = \int_0^t b(s,X_s) ds + \int_0^t \sigma(s,X_s) dB_s
+\end{equation*}
+
+In the following, we often write only the differential form of the equation, instead of the integral one, even though the latter is, strictly speaking, only rigorous one. Just like we've introduce the space of locally square-integrable functions, we say that $X \in M^1_{loc}[0,T]$ if $X$ is progressively measurable and 
+
+\begin{equation*}
+    \int_0^T \vert X_s \vert ds < \infty \;\; \mathbb{P}-\text{almost surely}
+\end{equation*}
+
+A stochastic process $X$ is called an \textbf{Ito Process} if there exists a process $F \in M^1_{loc}[0,T]$ and a process $G \in M^2_{loc}[0,T]$ such that
+
+\begin{equation}
+    X_t - X_0 = \int_0^t F_s ds + \int_0^t G_s dB_s \;\;\;\; \text{for every} \;\; t \in [0,T]
+\end{equation}
+
+An Ito process is given by the sum of two components: a lebesgue integral, which has finite variation, and a stochastic integral, which, as shown in the previous chapter, has infinite variation and is in fact a local martingale. 
+
+\begin{proposition}
+    The stochastic differential of a process in unique. 
+\end{proposition}
+\begin{proof}
+    Suppose there exists two different stochastic differentials $dX_t = F_1 dt + G_1 dB_t = F_2 dt + G_2 dB_t$, so that in integral form
+    \begin{gather*}
+        \int_0^t F_1 ds + \int_0^t G_1 dB_s = \int_0^t F_2 dt + \int_0^t G_2 dB_s \\
+        \implies \int_0^t F_1-F_2 ds = \int_0^t G_2 - G_1 dB_s
+    \end{gather*}
+
+    On the left hand side, we have a process with finite variation, while on the right there's a local martingale. This is only possible if and only if the martingale is trivial
+
+    \begin{gather*}
+        \int_0^t F_1 - F_2 d\mathbb{P} = \int_0^t G_1 - G_2 d\mathbb{P} = 0 \\
+        F_1 = F_2 \;\;\; \mathbb{P} \otimes \mathcal{L}-\text{almost surely} \;\;\;\;\;\;  G_1 = G_2 \;\;\; \mathbb{P} \otimes \mathcal{L}-\text{almost surely}
+    \end{gather*}
+\end{proof}
+
+\begin{proposition}
+    Let $X$ be a real-valued continuous process. Then, $X$ is Ito process with differential $dX_t = F_t dt + G_t dB_t$ if and only if, for every $0 \leq t_1 \leq t_2 \leq T$
+    \begin{equation*}
+        X_{t_2}-X_{t_1} = \int_{t_1}^{t_2} F_s ds + \int_{t_1}^{t_2} G_s dB_s
+    \end{equation*}
+\end{proposition}
+
+\begin{theorem}
+    If $X$ is an Ito process, with stochastic differential $dX_t = F_t dt+G_t dB_t$, then it's quadratic variation is given by 
+    \begin{equation*}
+        \langle X \rangle_t = \mathbb{P}-\lim_{\vert \pi \vert \to 0} \sum_{k=0}^{m-1} \big( X_{t_{k+1}}-X_{t_k} \big)^2 = \Big\langle \int_0^t G_s dB_s \Big\rangle_t = \int_0^t G_s^2 ds
+    \end{equation*}
+\end{theorem}
+
+The last equality is true because $G \in M^2_{loc}[0,T]$, so its quadratic variation can be computed as we previously did.
+Given two Ito processes $X_1,X_2$ with stochastic differentials $dX_1 = F_1dt+G_1dB_t$ and $dX_2 = F_2dt+G_2dB_t$ we define the quadratic covariation as 
+
+\begin{equation*}
+    \langle X_1,X_2 \rangle = \int_0^t G_1(s) G_2(s) ds \;\; \implies \;\; d\langle X_1, X_2 \rangle = G_1(t) G_2(t) dt 
+\end{equation*}
+
+\begin{theorem}
+    Let $X_t$ be an Ito process such that $X_0 \in L^1(\Omega, \mathcal{F}, \mathbb{P})$, with stochastic differential $dX_t = F_t dt + G_t dB_t$. $X_t$ is a $\mathcal{F}_t-$local martingale if and only if $F_t = 0$ for every $t \in [0,T]$. Moreover, if $G \in M^2[0,T]$, then $X_t$ is a martingale.
+\end{theorem}
+
+\begin{theorem}[Stochastic Leibniz Rule]
+    Given two Ito processes $X_1,X_2$ with stochastic differential $dX_i(t) = F_i(t)dt+G_i(t)dB_i(t)$, then the product $X_1(t) X_2(t)$ is an Ito process with stochastic differential 
+    \begin{equation}
+        d\big(X_1 X_2\big) = X_1(t) dX_2(t) + X_2(t) dX_1(t) + d\langle X_1, X_2 \rangle_t
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+We will often write $d\langle X_1,X_2 \rangle_t = dX_1 \cdot dX_2$. This slightly less rigorous expression is quite useful because of the multiplication table
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c|c c}
+        0 & $dt$ & $dB_t$ \\
+        \hline
+        $dt$ & $0$ & $0$ \\
+        $dB_t$ & 0 & $dt$
+    \end{tabular}
+\end{table}
+
+Now we introduce the second and most important rule of stochastic differentials: after the stochastic product rule, it's now time for the stochastic variation of the chain rule. Given an Ito process $X_t$ and a regular enough function $f(x,t)$, we want to compute the stochastic differential of $Y_t = f(X_t,t)$. 
+
+\begin{theorem}[Ito Formula]
+    Let $X_t$ be an Ito process with stochastic differential $dX_t = F_t dt + G_t dB_t$. Consider a function $f : \mathbb{R} \times \mathbb{R}^+ \to \mathbb{R}$, continuously differentiable with respect to time and twice continuously differentiable with respect to space $f \in \mathcal{C}^{2,1}\big(\mathbb{R} \times \mathbb{R}^+\big)$, then $Y_t = f(X_t,t)$ is an Ito Process with stochastic differential given by
+
+    \begin{gather}
+        dY_t = df(X_t,t) = \frac{\partial f}{\partial t}(X_t, t)dt+\frac{\partial f}{\partial x}(X_t,t) dX_t + \frac{1}{2}\frac{\partial^2 f}{\partial x^2}(X_t,t) d\langle X \rangle_t = \\
+        = \Big( \frac{\partial f}{\partial t}(X_t,t) + \frac{\partial f}{\partial x}(X_t,t) F_t + \frac{1}{2} \frac{\partial^2 f}{\partial x^2}(X_t,t) G_t^2 \Big) dt + \frac{\partial f}{\partial x}(X_t,t) G_t dB_t
+    \end{gather}
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+Ito's formula has many important applications. First, we could use it to check whether a certain process is a martingale or not. If the stochastic differential has a drift term, then we'd know for a fact that it is not a martingale. Consider, for instance,
+
+\begin{gather*}
+    X_t = t B_t - \int_0^t B_s ds \;\; \implies \;\; dX_t = d\big( U_t - V_t\big) \\
+    dU_t = d \big( t B_t \big) = B_t dt + t dB_t \;\;\;\;\; dV_t = d \Bigg( \int_0^t B_s ds \Bigg) = B_t dt \\
+    \implies dX_t = B_t dt + t dB_t - B_t dt = t dB_t
+\end{gather*}
+
+$X_t$ is an Ito process with zero drift and $G_t = t$. In general, the process would be local martingale but since we know $G_t \in M^2[0,T]$, then we can say that $X_t$ is a martingale. 
+
+Ito formula is also very useful to compute stochastic integrals: the idea is to somewhat guess the correct result, guided by what the analogous classical integral would be. Here's an example
+
+
+\begin{equation*}
+    \int_0^t B_s^2 dB_s = \frac{1}{3} B_t^3 + \text{something}
+\end{equation*}
+
+The first term is what we'd get with classical integration; the \textit{something} is what we have to figure out. Calculate the stochastic integral of $B_t^3$
+
+\begin{gather*}
+    d\big( B_t^3 \big) = 3 B_t^2 dB_t + 3 B_t dt \;\; \implies \;\; B_t^3 - B_0^3 = 3\int_0^t B_s^2 dB_s + 3 \int_0^t B_s ds \\
+    \int_0^t B_s^2 dB_s = \frac{1}{3} B_t^3 - \int_0^t B_s ds
+\end{gather*}
+
+Lastly, we consider a process known as \textit{exponential martingale}. Let $X_t$ be a stochastic process in $M^2_{loc}[0,T]$ and $\lambda \in \mathbb{R}$ a real number. We consider the exponetial process
+
+\begin{equation}
+    Z_t = \exp{ \lambda \int_0^t X_s dB_s - \frac{\lambda^2}{2} \int_0^t X_s^2 ds} = e^{Y_t}
+\end{equation}
+
+To study the dynamics of the process, first consider the exponent $Y_t$. This is given by the sum of two terms: a classical integral and a stochastic one. It's stochastic differential is easily written $dY_t = \lambda X_t - \frac{\lambda^2}{2} X_t^2$. Now apply Ito Formula
+
+\begin{gather*}
+    d Z_t = e^{Y_t} dY_t + \frac{1}{2} e^{Y_t} d \langle Y \rangle_t = e^{Y_t} \Big( \lambda X_t dB_t - \frac{1}{2} \lambda^2 X_t^2 dt + \frac{1}{2} \lambda^2 x_t^2 dt \Big) = \lambda X_t Z_t dB_t \\ 
+    Z_t = Z_0 + \lambda \int_0^t X_t Z_t dB_t = 1+ \lambda \int_0^t X_t Z_t dB_t 
+\end{gather*}
+
+The drift term is zero, so $Z_t$ is clearly a local martingale. Moreover, the diffusion term can be bounded from above, in fact
+
+\begin{equation*}
+    \int_0^T \vert X_s Z_s \vert^2 ds \leq \sup_{s \in [0,T]} \vert Z_s \vert^2 \int_0^T \vert X_s \vert^2 ds 
+\end{equation*}
+
+Since $Z_t$ is an Ito process, it is also continuous, so the supremum above is finite. The same holds for the integral term, we have assumed that $X \in M^2_{loc}[0,T]$. By definition, $Z_t = e^{Y_t}$ and is therefore positive. A theorem by Baldi states that a positive local martingale is a super-martingale, hence $E(Z_t) \leq E(Z_0) = 1$. 
+
+\begin{lemma}
+    If a super-martingale has constant expectation, then it is a martingale
+\end{lemma}
+\begin{proof}
+    By definition, a super-martingale is such that $E(Z_t \vert \mathcal{F}_s) \leq Z_s$ for $s \leq t$. Now define the variable $U = Z_s - E(Z_t \vert \mathcal{F}_s) \geq 0$ almost surely and $E(U) = E(Z_s) - E(Z_t) = 0$, so $U = 0$ almost surely. But this means that $Z_s = E(Z_t \vert \mathcal{F}_s)$, so the process is actually a martingale.  
+\end{proof}
+
+This lemma can be applied to our case: if we were able to show that the process $Z_t$ has constant expectation, $Z_t$ would be a martingale. In particular, if $E(Z_T) = 1$, then every other expectation must also be $1$, because $1 = E(Z_T) \leq E(Z_t) \leq E(Z_0) = 1$. 
+
+\subsection{Multidimensional Ito's Formula}
+So far, we've only considered real-valued processes, but the theory we've developed can be easily generalized to any number of dimension. Let $B = (\Omega, \mathcal{F}, (\mathcal{F}_t), (B_t), \mathbb{P})$ be a $d-$dimensional and standard continuous brownian motion $B_t = \big(B_1(t), B_2(t),...,B_d(t)\big)$, where $B_i(t)$ are independent real brownian motions. 
+
+Let $\sigma \in \mathbb{R}^{n \times d}$ be matrix of dimension $n \times d$, of the form $\sigma(t) = \big( \sigma_{ij}(t) \big)_{i,j}$. The multidimensional stochastic integral of the process $\sigma(t)$ on the time interval $[a,b]$ is an $n-$dimensional vector defined as
+
+\begin{equation*}
+    \int_a^b \sigma(t) dB_t = \Bigg( \sum_{j=1}^d \int_a^b \sigma_{ij}(t) dB_j(t) \Bigg)_{i = 1,...,n}
+\end{equation*}
+
+This integral is well defined for any $\sigma(t) \in M^2[a,b]$, which means that every single element of the matrix must be $\sigma_{ij}(t) \in M^2[a,b]$ as well, or, more generally, for any $\sigma(t) \in M^2_{loc}[a,b]$. 
+
+With respect to a specific norm, that we know define, the space $M^2[a,b]$ turns out to be an Hilbert space. In particular, consider a matrix $\sigma : \Omega \times [a,b] \to \mathbb{R}^{n \times d}$, then it's $M^2-$norm is
+
+\begin{gather*}
+    \Vert \sigma \Vert^2 = E\Bigg( \int_a^b \vert \sigma(t) \vert^2 dt \Bigg) \;\;\; \text{where} \;\;\; \vert \sigma \vert^2 = \sum_{i=1}^n \sum_{j=1}^d \vert \sigma_{ij} \vert^2 = \Tr{\sigma \sigma^T}
+\end{gather*}
+
+Many of the properties we discussed in one dimension are still valid: a stochastic integral always has a continuous variation and every component is either a local martingale, if $\sigma \in M^2_{loc}[a,b]$, or a martingale if $\sigma \in M^2[a,b]$. 
+
+\begin{proposition}
+    Let $X_1,X_2 \in M^2[0,T]$ be two real processes and 
+    \begin{equation*}
+        I_1(t) = \int_0^t X_1(s) dB_1(s) \;\;\;\;\; I_2(t) = \int_0^t X_2(s) dB_2(s)
+    \end{equation*}
+    where $B_1,B_2$ are two components of a $d-$dimensional $\mathcal{F}_t-$brownian motion. In particular, $B_1,B_2$ are real, continuous, standard and \textit{independent}. Then, for every $0 \leq s \leq t \leq T$, the process $I_1(t)I_2(t)$ is a martingale, with zero quadratic covariation  $\langle I_1, I_2 \rangle_t = 0$ and 
+    \begin{equation*}
+        E\Bigg( \int_s^t X_1(\omega) dB_1(\omega) \int_s^t X_2(\omega) dB_2(\omega) \Bigg\vert \mathcal{F}_s \Bigg) = 0
+    \end{equation*}
+\end{proposition}
+\begin{proof}
+    We only prove the $I_1I_2$ is in fact a martingale and that has zero quadratic covariation. To check martingality, we just apply the definition
+    \begin{gather*}
+        E\big( I_1(t) I_2(t) \big\vert \mathcal{F}_s \big) = E \Bigg[ \Bigg( \int_0^s I_1(u) dB_1(u) + \int_s^t X_1(u) dB_1(u) \Bigg) \Bigg( \int_0^s I_2(u) dB_2(u) + \int_s^t X_2(u) dB_2(u) \Bigg) \Bigg] = \\
+        = I_1(s) I_2(s) + E\Bigg( \int_s^t X_1(u) dB_1(u) \int_s^t X_2(u) dB_2(u) \Big\vert \mathcal{F}_s \Bigg) + \\
+        + I_1(s) E\Bigg( \int_s^t X_2(u) dB_2(u) \Big\vert \mathcal{F}_s \Bigg) + I_2(s) E\Bigg( \int_s^t X_1(u) dB_1(u) \Big\vert \mathcal{F}_s \Bigg)
+    \end{gather*}
+
+    The first expectation is the one of the kind this very same proposition talks about. We haven't shown it, but it's actually zero. The other two are also, because each stochastic integral is independent of $\mathcal{F}_s$, so the conditional expectation becomes a classical expectation, which in turn is again zero. So we are left with
+
+    \begin{equation*}
+        E\big( I_1(t) I_2(t) \big\vert \mathcal{F}_s \big) = I_1(s) I_2(s) \;\; \implies \;\; \text{the process is a martingale}
+    \end{equation*}
+
+    Now, since both $I_1$ and $I_2$ are martingales, we know that the quantity $I_1I_2 - \langle I_1, I_2 \rangle_t$ is also a martingale. So, by linearity, the quadratic covariation is a martingale too! But the quadratic covariation has finite first variation, so the only possible way for it to be martingale is if $\langle I_1,I_e \rangle_t$ was constant and trivially equal to zero. Hence, our proof is complete and $\langle I_1,I_e \rangle_t = 0$.  
+\end{proof}
+
+The stochastic integral of a process $\sigma$ is a vector; if $\sigma \in M^2[0,T]$, then each component of this vector is a martingale. We want to compute the quadratic variation of the $i-$th component
+
+\begin{equation*}
+    \langle X_i \rangle = \Big\langle \sum_{i=1}^d \int_0^d \sigma_{ij}(s) dB_j(s) \Big\rangle_t
+\end{equation*}
+
+To do so, we shall first consider the process $X_i^2 - \langle X_i \rangle$, which is itself a martingale. Applying the definition of $X_i$
+
+\begin{gather*}
+    X_i^2(t) = \Bigg( \sum_{j=1}^d I_j(t) \Bigg)^2 = \sum_{h,j = 1}^d I_j(t) I_h(t) = \sum_{j=1}^d I_j(t)^2 + \sum_{h \neq j} I_j(t) I_h(t)
+\end{gather*}
+
+For the previous proposition, the second series is a sum of martingales. On the other hand, we know that subtracting from $I_j^2$ the integral, with respect to time, of $\sigma_{ij}$ we have another martingale. The bottom line is
+
+\begin{gather*}
+    \sum_{h \neq j} I_j(t)I_h(t) \;\;\; \text{martingale} \;\;\;\;\;\;\; \sum_{j=1}^d \Bigg( I_j(t)^2 - \int_0^t \sigma_{ij}^2 ds \Bigg) \;\;\; \text{martingale} \\
+    X_i(t)^2 - \langle X_i \rangle_t \;\;\; \text{martingale} \;\; \implies \;\; \langle X_i \rangle_t = \int_0^t \sum_{j=1}^d \sigma_{ij}^2 ds 
+\end{gather*}
+
+Take $X_i,X_j$, their quadratic covariation is given by the sum
+
+\begin{equation*}
+    \big\langle X_i(t), X_j(t) \big\rangle = \sum_{k=1}^d \int_0^t \sigma_{ik} \sigma_{jk} ds = \int_0^t a_{ij} ds
+\end{equation*}
+
+The single $a_{ij}$ for a symmetric matrix $a(t) = \sigma \sigma^T$.
+
+\begin{proposition}
+    Let $\sigma \in M^2[0,T]$ and $a(t) = \sigma \sigma^T$. Then the following results hold
+
+    \begin{enumerate}
+        \item The mean of a stochastic integral is zero
+        \begin{equation}
+            E\Bigg( \int_0^T \sigma(s) dB(s) \Bigg) = 0 
+        \end{equation}
+        \item The covariance a stochastic integral is given by
+        \begin{equation}
+            Var\Bigg( \int_0^t \sigma(s) dB(s) \Bigg) = \int_0^t E\big( a(s) \big) ds
+        \end{equation}
+        \item Ito isometry is still true, just adapted to the vector case
+        \begin{equation}
+            E\Bigg[ \Bigg( \int_0^t \sigma(s) dB(s) \Bigg) \Bigg]^2 = E\Bigg( \int_0^t \Tr{A(s)} ds \Bigg)
+        \end{equation}
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+\begin{definition}
+    An $n-$dimensional stochastic process $X$ is an Ito process if there exist $F = (F_1,...,F_n) \in M^1[0,T]$ and $G = (G_{ij})$, matrix $n \times d$, with $G_{ij} \in M^2_{loc}[0,T]$, such that
+
+    \begin{gather*}
+        X_t - X_0 = \int_0^t F_s ds + \int_0^t G_s dB_s \\
+        X_i(t) = X_i(0) + \int_0^t F_i(s) ds + \sum_{k=1}^d \int_0^t G_{ik}(s) dB_k(s)
+    \end{gather*}
+\end{definition}
+
+The quadratic variation and covariation of an Ito process are given by the integral of the sum of $G_{ik}^2$, for each component $i$. In formulae, 
+
+\begin{equation}
+    \langle X_i(t) \rangle = \int_0^t \sum_{k=1}^d G_{ik}^2 ds \;\;\;\; \langle X_i(t), X_j(t) \rangle = \sum_{k=1}^d \int_0^t G_{ik} G_{jk} ds
+\end{equation}
+
+As in the uni-dimensional case, the Ito formula is still true. Consider an $n-$dimensional Ito process and a function $u \in \mathcal{C}^{1,2}(\mathbb{R}^+ \times \mathbb{R}^n, \mathbb{R})$. Define the new process $Y = u(y,X_t)$. Ito formula states that $Y_t$ is an Ito process, with stochastic differential equal to
+
+\begin{equation}
+    dY_t = \frac{\partial u}{\partial t}(t,X_t) dt + \sum_{i=1}^n \frac{\partial u}{\partial x_i}(t,X_t) dX_i + \frac{1}{2} \sum_{i,j=1}^n \frac{\partial^2 u}{\partial x_i \partial x_j}(t,X_t) d\langle X_i, X_j \rangle
+\end{equation}
+
+It is often convient to carry out computations in differential form, using the already introduce \textit{Ito table} of differential. The value of $\langle dX_i, dX_j \rangle$ could also be seen as the dot product $dX_i \cdot dX_j$, according to the rules
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c|c c c}
+        0 & $dt$ & $dB_i$ & $dB_j$\\
+        \hline
+        $dt$ & $0$ & $0$ & 0\\
+        $dB_i$ & 0 & $dt$ & 0 \\
+        $dB_j$ & 0 & 0 & $dt$ \\
+    \end{tabular}
+\end{table}
+
+\subsection{Change of Measure}
+Consider two probability spaces $(\Omega,\mathcal{F},\mathbb{P})$ and $(\Omega,\mathcal{F},\mathbb{Q})$. We say that the probability measure $\mathbb{Q}$ is absolutely continuous with respect to $\mathbb{P}$ if
+
+\begin{equation*}
+    \mathbb{P}(A) = 0 \; \implies \; \mathbb{Q}(A) = 0 \;\;\;\;\; \forall A \in \mathcal{F}
+\end{equation*}
+
+Negligible sets with respect to $\mathbb{P}$ are also negligible with respect to $\mathbb{Q}$. In such case we write $\mathbb{Q} << \mathbb{P}$. 
+
+\begin{theorem}[Radon-Nikodym]
+    The measure $\mathbb{Q}$ is absolutely continuous with respect to $\mathbb{P}$, $\mathbb{Q} << \mathbb{P}$, if and only if there exists a random variable $Z : (\Omega,\mathcal{F}) \to \Big( [0,\infty), \mathcal{B}\big([0,\infty)\big) \Big)$, positive and $\mathcal{F}-$measurable, such that
+    \begin{equation}
+        \mathbb{Q}(A) = \int_A Z d\mathbb{P} \;\;\;\;\;\;\; \frac{d\mathbb{Q}}{d\mathbb{P}} = Z \;\;\; \text{Radon-Nikodym derivative}
+    \end{equation}
+\end{theorem}
+
+In an equivalent fashion, we can write $\mathbb{Q} << \mathbb{P}$ if and only if there exists a random variable $Z$ such that for every $X \in L^1(\Omega)$
+
+\begin{equation}
+    E_{\mathbb{Q}}(X) = \int_{\Omega} X d\mathbb{Q} = \int_{\Omega} X Z d\mathbb{P} = E_{\mathbb{P}}(XZ) 
+\end{equation}
+Notice that, since $\mathbb{Q}$ is a probability measure, the expected value of the Radon-Nikodym derivative $Z$ is one
+
+\begin{equation*}
+    Q(\Omega) = \int_{\Omega} Z d\mathbb{P} = 1 \; \implies \; E(Z) = 1 
+\end{equation*}
+
+Two probability measures are said to be \textit{equivalent} if $\mathbb{P} << \mathbb{Q}$ and $\mathbb{Q} << \mathbb{P}$. The two measures have the same negligible sets: $\mathbb{P}(A) = 0 \iff \mathbb{Q}(A) = 0$. 
+
+\begin{theorem}
+    $\mathbb{P},\mathbb{Q}$ are equivalent, $\mathbb{P} \sim \mathbb{Q}$, if and only if there exists a random variable $Z : (\Omega,\mathcal{F}) \to \Big( (0,\infty), \mathcal{B}\big((0,\infty\big)\Big)$ such that 
+    \begin{equation*}
+        \mathbb{Q}(A) = \int_A Z d\mathbb{P} \;\;\;\; \mathbb{P}(A) = \int_A \frac{1}{Z} d\mathbb{Q} \;\;\;\; \forall A \in \mathcal{F}
+    \end{equation*}
+\end{theorem}
+Keep in mind that in this theorem the Random-Nikodym derivative must be strictly positive, so that we can write
+
+\begin{equation*}
+    Z = \frac{d\mathbb{Q}}{d\mathbb{P}} \;\;\;\; \frac{1}{Z} = \frac{d\mathbb{P}}{d\mathbb{Q}}
+\end{equation*}
+
+The same concept of Random-Nikodym derivative can be extended to conditional expectations. Let $\mathbb{P} \sim \mathbb{Q}$ and take $\mathcal{D} \subseteq \mathcal{F}$. Then $\mathbb{P} \vert_{\mathcal{D}} \sim \mathbb{Q}\vert_{\mathcal{D}}$ and 
+
+\begin{gather*}
+    \frac{d\mathbb{P} \vert_{\mathcal{D}}}{d\mathcal{Q} \vert_{\mathcal{D}}} = E\big( Z \vert \mathcal{D} \big) \;\;\;\;\; \frac{d\mathbb{Q} \vert_{\mathcal{D}}}{d\mathcal{P} \vert_{\mathcal{D}}} = E\Big( \frac{1}{Z} \Big\vert \mathcal{D} \Big) \\
+    E_{\mathbb{Q}}(X \vert \mathcal{D}) = \frac{E_{\mathbb{P}}(XZ \vert \mathcal{D})}{E_{\mathbb{P}}(Z\vert \mathcal{D})} \;\;\; \forall X \in L^1 (\mathbb{Q})
+\end{gather*}
+
+\begin{proposition}
+    Given a measurable space $(\Omega,\mathcal{F})$, a filtration $\mathcal{F}_t$ and two equivalent probability measures $\mathbb{P}\vert_{\mathcal{F}_t} \sim \mathbb{Q}\vert_{\mathcal{F}_t}$ for every $t \in [0,T]$, define the random variable $Z_t$ as
+    \begin{equation*}
+        Z_t = \frac{d\mathbb{Q}\vert_{\mathcal{F}_t}}{d\mathbb{P}\vert_{\mathcal{F}_t}}
+    \end{equation*}
+    \begin{enumerate}
+        \item The process $Z_t$ is a $\mathbb{P}-$martingale 
+        \item The process $\frac{1}{Z_t}$ is a $\mathbb{Q}-$martingale
+        \item $X_t$ is a $\mathbb{Q}-$martingale if and only if $X_tZ_t$ is a $\mathbb{P}-$martingale. Vice versa, $Y_t$ is a $\mathbb{P}-$martingale if and only if $\frac{Y_t}{Z_t}$ is a $\mathbb{Q}-$martingale.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    We only prove the third point of the proposition: let $X_t$ be a $\mathbb{Q}-$martingale, so that $E_{\mathbb{Q}}(X_t \vert \mathcal{F}_s) = X_s$
+    \begin{equation*}
+        E_{\mathbb{P}}(X_t Z_t \vert \mathcal{F}_s) = \frac{E_{\mathbb{Q}}\Big( X_t Z_t \frac{1}{Z_t} \Big\vert \mathcal{F}_s\Big)}{E_{\mathbb{Q}}\Big( \frac{1}{Z_t}\Big\vert \mathcal{F}_s\Big)} = \frac{E_{\mathbb{Q}}\big( X_t \vert \mathcal{F}_s \big)}{\frac{1}{Z_s}} = X_sZ_s
+    \end{equation*}
+    So $X_t Z_t$ is a $\mathbb{P}-$martingale. To show the converse, consider the product of random variables $X_t Z_t$; suppose that this is a $\mathbb{P}-$martingale.
+    \begin{equation*}
+        E_{\mathbb{Q}}(X_t \vert \mathcal{F}_s) = \frac{E_{\mathbb{P}}(X_t Z_t \vert \mathcal{F}_s}{E_{\mathbb{P}}(Z_t \vert \mathcal{F}_s)} = \frac{X_s Z_s}{Z_s} = X_s
+     \end{equation*}
+\end{proof}
+
+We now move on to one of the most important theorems of stochastic calculus. With plenty of applications in stochastic differential equations and quantitative finance, the idea is to build a new Brownian motion, under another probability measure, based on some function $\phi \in M^2$. First, some preliminary results.
+
+Let $B$ be a $m-$ decimal Brownian motion, defined in the filtered probability space $(\Omega,\mathcal{F},(\mathcal{F}_t),\mathbb{P})$. Consider the function $\phi \in M^2_{loc}[0,T]$, with values in $\mathbb{C}^m$, and define the exponential process:
+
+\begin{equation}
+    Z_t = \exp{\int_0^t \phi(s) dB_s - \frac{1}{2} \int_0^t \phi(s)^2 ds}
+\end{equation}
+
+where $\phi(s)^2$ is the sum of squares of the single components. Calculating the stochastic differential of $Z_t$ using the Ito formula, we get $dZ_t = \phi(t) Z_t dB_t$. The drift term is zero; hence the process is a local martingale. Another proposition states that, if the integral of the square of $\vert \phi(t) \vert$ is bounded, then $Z_t$ is actually a martingale. 
+
+\begin{equation*}
+    \int_0^T \vert \phi(s) \vert^2 ds \leq K < \infty \; \implies \: Z_t \;\;\text{martingale}
+\end{equation*}
+
+If $Z_t$ is a martingale, its expected value is constant over time. But, by definition, $Z_0 = 1$, so $E(Z_t) = E(Z_0) = 1$ for every $t \in [0,T]$. 
+
+\begin{theorem}[Girsanov]
+    Let $B = (\Omega, \mathcal{F}, (\mathcal{F}_t), (B_t), \mathbb{P})$ be an $m-$ dimensional continuous standard Brownian motion and $\phi = (\phi_i)_{i=1,..,m}$ in $M^2_{loc}[0,T]$, with values in $\mathbb{R}^m$. If the exponential process $Z_t$ is a martingale and $\mathbb{Q}$ is a probability measure of $(\Omega,\mathcal{F})$, having density $Z_T$ with respect to $\mathbb{P}$, $d\mathbb{Q} = Z_T d\mathbb{P}$, then the process 
+    \begin{equation}
+        W_t = B_t - \int_0^t \phi(s) ds
+    \end{equation}
+    is a continuous standard $(F_t)-$Brownian motion with respect to $\mathbb{Q}$. 
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE e Scheffe Lemma
+\end{proof}
+
+Girsanov's theorem has many applications: for instance, let $X$ be an Ito process with stochastic differential $dX_t = F_t dt + G_t dB_t$ under $\mathbb{P}$. Using Girsanov theorem, we can compute the stochastic differential under the new  measure $\mathbb{Q}$: 
+
+\begin{gather*}
+    W_t = B_t - \int_0^t \phi(s) ds \;\;\;\;\;\; dW_t = dB_t - \phi(t)dt \\
+    \implies dX_t = (F_t+G_t \phi_t) dt + G_t dW_t
+\end{gather*}
+
+$X$ is still an Ito process, but the drift term has changed. Girsanov's main hypothesis is that the exponential process $Z_t$ is martingale; for this reason, it is often useful in practice to have weaker conditions to check for $Z_t$ martingality. 
+
+\begin{proposition}
+    Let $Z_t$ be the exponential process defined in $(3.2.3)$ and $\phi \in M^2_{loc}[0,T]$. 
+    \begin{enumerate}
+        \item \textbf{Novikov Condition:} $Z_t$ is a uniformly integrable martingale if
+        \begin{equation}
+            E\Bigg( \exp{\frac{1}{2} \int_0^T \vert \phi(s) \vert^2 ds} \Bigg) < \infty
+        \end{equation}
+        \item $Z_t$ is a uniformly integrable martingale if there exists a $\mu > 0$ such that 
+        \begin{equation}
+            E\Big( e^{\mu \vert \phi(t) \vert^2} \Big) \leq C < \infty \;\;\; \forall t \in [0,T]
+        \end{equation}
+        \item \textbf{Kazamaki Criterion:} $Z_t$ is a uniformly integrable martingale if the process $M_t$ 
+        
+        \begin{equation*}
+            M_t = \int_0^t \phi(s) dB_s
+        \end{equation*}
+        
+        
+        is a martingale bounded in $L^2$ and $E\big( e^{\frac{1}{2}M_T}\big) < \infty$
+        
+
+    \end{enumerate}
+\end{proposition}

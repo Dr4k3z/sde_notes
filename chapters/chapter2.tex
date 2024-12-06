@@ -1040,4 +1040,264 @@ The first term is telescopic and hence is exactly equal to $B_T^2$ while the sec
     \int_0^T B_s dB_s = \frac{B_T^2}{2} - \frac{T}{2}
 \end{equation*}
 
-The extra term $-\frac{T}{2}$ makes it clear once and for all that the rules of classical analysis do not apply in the realm of stochastic calculus. 
+The extra term $-\frac{T}{2}$ makes it clear once and for all that the rules of classical analysis do not apply in the realm of stochastic calculus. As per the current definition of stochastic integral, it is not a local object, in the sense that is not path-wise defined. 
+
+\begin{theorem}[First Localization Result]
+    Let $X,Y \in M^2[a,b]$ and $A \in \mathcal{F}$. If $X_t = Y_t$ for every $\omega \in A$ and every $t \in [a,b]$, then 
+    \begin{equation*}
+        \int_a^b X_t dB_t = \int_a^b Y_t dB_t \;\; \text{almost surely on $A$}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Consider two sequences $X_n = G_n X$ and $Y_n = G_n Y$; by hypothesis, $X_n(t,\omega) = Y_n (t,\omega)$ for $t \in [a,b]$ and $\omega \in A$. For elementary processes, we can write
+
+    \begin{equation*}
+        \int_a^b X_n dB_s = \int_a^b Y_b dB_s
+    \end{equation*}
+
+    We now take the $L^2-$limit of both sides. $L^2-$convergence implies the existence of a subsequence that converges almost surely. Hence,
+
+    \begin{equation*}
+        \int_a^b X_s dB_s = \int_a^b Y_s dB_s \;\; \text{almost surely on $A$}
+    \end{equation*}
+\end{proof}
+
+Given a stochastic process, let's consider the family of random variables $I(t)$
+
+\begin{equation*}
+    I(t) = \int_0^t X_s dB_S
+\end{equation*}
+
+This family has the following properties: $I(0) = 0$, almost surely. For $0 \leq s \leq t$, the difference $I(t)-I(s)$ is equal to the stochastic integral between $s$ and $t$ of $I(u)$. Finally, $I(t)$ is $\mathcal{F}_t-$adapted. To see this, consider the definition of $I(t)$ for an elementary process
+
+\begin{equation*}
+    I_n(t) = \int_0^t X_n(s) dB_s = \sum_{k=0}^{m-1} X_k^n (B_{t_{k+1}}-B_{t_k}) 
+\end{equation*}
+
+The latter series is clearly $\mathcal{F}_t-$adapted. Now, we known that $I_n \to I$ in $L^2$; but this convergence implies the existence of a subsequence $I_{n_l}$ that converges to $I$ almost surely. This means that the \textit{a.s-}limit is $\mathcal{F}_t-$measurable.
+
+\begin{theorem}
+    Let $X \in M^2[0,T]$. Then the following holds
+\begin{enumerate}
+    \item The random variables $I(t)$ is an $F_t-$square integrable martingale, bounded in $L^2(\Omega,\mathcal{F},\mathbb{P})$. 
+    \item It has a continuous variation
+    \item The quadratic variation $\langle I \rangle_t$ is equal to
+
+    \begin{equation}
+        \langle I \rangle_t = \big\langle \int_0^t X_s dB_s \big\rangle = \int_0^t X_s^2 ds
+    \end{equation}
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+    To show the first statement, we use Ito isometry to write that
+    \begin{gather*}
+        E\Bigg[ \Bigg( \int_0^t X_s dB_s \Bigg)^2 \Bigg] = E\Bigg( \int_0^t X_s^2 ds \Bigg) \leq E\Bigg( \int_0^T \vert X_t \vert^2 ds \Bigg) < \infty \\
+        \sup_{t \in [0,T]} E\Bigg[ \Bigg( \int_0^t X_s dB_s \Bigg)^2\Bigg] \leq E\Bigg( \int_0^T \vert X_t \vert^2 ds \Bigg) = \Vert X_s \Vert_{L^2(\Omega \times [0,T])}^2
+    \end{gather*}
+
+    So $I(t)$ is bounded in the interval $[0,T]$. To check the martingality property, consider the expected value of the difference $I(t)-I(s)$, for $s \leq t$
+
+    \begin{gather*}
+        E\Big( I(t)-I(s) \Big\vert \mathcal{F}_s \Big) = E\Bigg( \int_s^t X_u dB_u \Big\vert \mathcal{F}_s \Bigg) = 0 \\
+        \implies E\big( I(t) \vert \mathcal{F}_s \big) = I(s) \;\; \text{Martingale}
+    \end{gather*}
+
+    As a consequence, the path of $I(t)$ can not have finite variation.
+    To prove the last property, we FINIRE DIMOSTRAZIONE
+\end{proof}
+
+The final statement also proves that path of a stochastic integrals do not have finite variation, unless $I(t)$ is \textit{a.s.} constant. Applying Doob's inequality, we get
+
+\begin{gather*}
+    E\Bigg[ \sup_{t \in [0,T]} \Bigg( \int_0^t X_s dB_s \Bigg)^2 \Bigg] \leq 4 \sup_{t \in [0,T]} E\Bigg[ \Bigg( \int_0^t X_s dB_s \Bigg)^2 \Bigg] = 4 \int_0^T X_s^2 ds
+\end{gather*}
+
+\begin{theorem}
+    Let $X_n,X \in M^2[0,T]$ and $X_n \to X$ in $M^2$. Then
+    \begin{equation*}
+        E\Bigg[ \sup_{t \in [0,T]} \Bigg( \int_0^t X_n(s) dB_s - \int_0^t X_s dB_s \Bigg)^2 \Bigg] \to 0 \;\;\; \text{as $n\to \infty$}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    Recall that, by the previous theorem, the stochastic integral is a martingale, so we can actually apply the Doob's inequality derived above
+
+    \begin{gather*}
+        E\Bigg[ \sup_{t \in [0,T]} \Bigg( \int_0^t X_n(s) dB_s - \int_0^t X_s dB_s \Bigg)^2 \Bigg] = E\Bigg[ \sup_{t \in [0,T]} \Bigg( \int_s^t X_n(s) dB_s -X_s dB_s \Bigg)^2 \Bigg] \leq \\
+        \leq 4 \int_0^T E\Big(\vert X_n(s) - X(s) \vert^2\Big) ds \to 0  
+    \end{gather*}
+\end{proof}
+
+Let $\tau$ be a $\mathcal{F}_t-$stopping time and $X \in M^2[0,T]$. By corollary fo stopping theorem for martingales, the stopped integral is a continuous martingale
+
+\begin{equation*}
+    I(t \wedge \tau) = \int_0^{t \wedge \tau} X_s dB_s \;\; \text{martingale} 
+\end{equation*}
+
+\begin{theorem}
+    Let $\tau$ be a stopping time, such that $\tau \leq t$ almost surely. Given a process $X \in M^2[0,T]$, also the processes $X_t \mathbb{I}_{t \leq \tau}, X_t \mathbb{I}_{t < \tau} \in M^2[0,T]$ and
+    \begin{equation*}
+        I(\tau) = \int_0^{\tau} X_s dB_s = \int_0^T X_s \mathbb{I}_{s \leq \tau} dB_s = \int_0^T X_s \mathbb{I}_{s < \tau} dB_s
+    \end{equation*}
+\end{theorem}
+
+\begin{theorem}[Second Localization Result]
+    Let $X,Y$ be two processes in $M^2[a,b]$ such that
+    $X_t(\omega) = Y_t(\omega)$ for every $\omega \in A$ and for every $t \in [a,b]$, where $A \in \mathcal{F}$. Then
+    \begin{equation*}
+        \int_0^t X_s dB_s = \int_0^t Y_s dB_s \;\; \;   \; \forall \; t \in [a,b] \;\; \text{almost surely on $A$}
+    \end{equation*}
+\end{theorem}
+\begin{proof}
+    ABBIAMO FATTO LA DIMOSTRAZIONE??
+\end{proof}
+
+\subsection{Local Martingales}
+As in the case of standard $L^p$ space, we also have a locally integrable version. We define the space $M^2_{loc}[a,b]$ as the space of equivalence classes of processes $X$ such that:
+\begin{itemize}
+    \item $X$ is progressively measurable
+    \item The integral, with respect to time, of the square between $0$ and $t$ is finite $\mathbb{P}-$almost surely
+    \begin{equation*}
+        \int_0^t X_s^2 ds < \infty
+    \end{equation*}
+\end{itemize}
+
+With respect to the definition of $M^2$, we no longer require that the expected value of the time integral is finite. Clearly, $M^2$ is contained inside of $M^2_{loc}$, while the opposite is not true. Think for instance of a Cauchy random variable, it's almost surely finite yet the expected value is infinity. 
+
+Given a process $X \in M^2_{loc}[0,T]$ and a natural number $n \in \mathbb{N}$ we can define the random time
+
+\begin{equation*}
+    \tau_n = \inf\Big\{ t \in [0,T] : \int_0^t \vert X_s \vert^2 ds > n \Big\} \;\;\;\; \tau_n = \infty \;\; \text{if} \;\; \int_0^T X_s^2 ds \leq n
+\end{equation*}
+
+The integral process is continuous and increasing; $\tau_n$ is an exit time from a closed set, so it's a $\mathcal{F}_t-$stopping time. We can define the stopped random variable $X_{t}^n(\omega) = X_t(\omega) \mathbb{I}_{[0,\tau_n)}(t)$. Notice that
+
+\begin{equation*}
+    \int_0^T \big\vert X_{s}^n(\omega) \big\vert^2 ds  = \int_0^{\tau_n \wedge T} X_s^2 ds \leq n 
+\end{equation*}
+
+In particular, the expect value of the time integral above is finite, so $X^n_s \in M^2[0,T]$. 
+
+\begin{definition}
+    For a process $X \in M^2_{loc}[0,T]$, the stochastic integral with respect to the brownian motion is defined as 
+    \begin{equation*}
+        I(t) = \Bigg( \int_0^t X_s dB_s \Bigg) = \text{a.s}\lim_{n \to \infty} \int_0^t X_s^n dB_s = \text{a.s}\lim_{n \to \infty} \int_0^t X_s \mathbb{I}_{[0,\tau_n]}(s) dB_s
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+    The stochastic integral for a process $X \in M^2_{loc}[0,T]$ is well defined, continuous and $\mathcal{F}_t-$adapted process. 
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+So far we've introduced two different definitions for the stochastic integral: one for processes in $M^2[0,T]$ and the other for $M^2_{loc}[0,T]$. However, the former is clearly contained in the latter, so the question is: for $X \in M^2[0,T] \subset M^2_{loc}[0,T]$, are these two definitions equivalent? Yes.
+
+\begin{proposition}
+    For $X \in M^2[0,T]$ the two definitions of stochastic integrals are equivalent
+    \begin{equation*}
+        \text{L}^2 \lim_{n \to \infty} \int_0^t G_n X(s) dB_s = \text{a.s} \lim_{n \to \infty} \int_0^t X_s \mathbb{I}_{[0,\tau_n]} dB_s 
+    \end{equation*}
+\end{proposition}
+\begin{proof}
+Consider the sequence $M^2_{loc}[0,T]$, which converges $X^n \to X$ in $M^2$. Therefore
+
+\begin{gather*}
+    E\Bigg( \int_0^T \big\vert X_s - X^{n}_s \big\vert^2 ds \Bigg) = E\Bigg( \int_{\tau_n}^T \big\vert X_s \big\vert^2 ds \Bigg) \to 0 \;\;\; \text{as} \; n \to \infty \\
+    E\Bigg( \sup_{t \in [0,T]} \Bigg\vert \int_0^t X_s^n dB_s - \int_0^t X_s dB_s \Bigg\vert^2 \Bigg) \to 0
+\end{gather*}
+
+The first limit holds because of Lebesgue theorem on dominated convergence, while in the second we've applied Doob's inequality. The $\sup$ sequence goes to zero in $L^2$, so there exists at least one subsequence such that
+
+\begin{equation*}
+    \sup_{t \in [0,T]} \Bigg\vert \int_0^t X_s^{n_k} dB_s - \int_0^t X_s dB_s \Bigg\vert^2 \to 0 \;\;\; \text{a.s}
+\end{equation*}
+
+We denote $I_{M^2}$ the $M^2[0,T]-$defined stochastic integral, while we use $I_n$ for the sequence of stochastic integrals of $X^n_s$. The limit above basically tells us that $I_n \to I_{M^2}$ almost surely. 
+
+FINIRE DIMOSTRAZIONE (NON HA SENSO)
+\end{proof}
+
+As we could expect, many of the properties that were true in $M^2$ are no longer valid. For instance, stochastic integrals, in general, are not integrable random variables; Ito Isometry isn't true anymore and stochastic are not martingales. However, stochastic integrals are still continuous processes. 
+
+\begin{proposition}
+    Given $X_n, X \in M^2_{loc}[0,T]$ such that the integral of the square of the difference goes to zero, the followings are true
+    \begin{equation*}
+        \int_0^T \big\vert X_n(s) - X(s) \big\vert^2 ds \to 0 \;\; \text{in probability}
+    \end{equation*}
+    \begin{enumerate}
+        \item The stochastic integral of $X_n$ converges in probability to 
+        \begin{equation*}
+            \int_0^T X_n (s) dB_s \to \int_0^T X(s) dB_s
+        \end{equation*}
+        \item The supremum of the difference goes to zero in probability
+        \begin{equation*}
+            \sup_{t \in [0,T]} \Bigg\vert \int_0^t X_n(s) dB_s - \int_0^t X_s dB_s \Bigg\vert \to 0 
+        \end{equation*}
+    \end{enumerate}
+\end{proposition}
+\begin{corollary}
+    Given a continuous process $X \in M^2_{loc}[0,T]$, for any choice of partition $\pi = (t_0,t_1,...,t_n)$ such that $0 = t_0 < t_1 < \cdot\cdot\cdot < t_n = T$, the following series converges in probability for $\vert \pi\vert \to 0 $ 
+    \begin{equation*}
+        \sum_{k=0}^{m-1} X_{t_k}\big( B_{t_{k+1}}-B_{t_k} \big) \to \int_0^T X_{t} dB_t
+    \end{equation*}
+\end{corollary}
+\begin{proof}
+    We can rewrite the above series as an integral, using the indicator function of the chosen partition
+    \begin{equation*}
+        \sum_{k=0}^{m-1} X_{t_k}\big( B_{t_{k+1}}-B_{t_k} \big) = \int_0^T X_{t_k} \mathbb{I}_{[t_k, t_{k+1}]}(s) dB_s
+    \end{equation*}
+    Since $[0,T]$ is a compact interval, the map $t \to X_t$ is not only continuous, but also uniformly continuous:
+    \begin{gather*}
+        \sup_{t \in [0,T]} \big\vert X_n(t) - X(t) \big\vert \to 0 \\
+        \int_0^T \big\vert X_n(t) - X(t) \big\vert^2 dt \leq \sup_{t \in [0,T]} \big\vert X_n(t) - X(t) \big\vert^2 T \to 0
+    \end{gather*}
+
+    Hence, by the previous proposition we can conclude that
+
+    \begin{equation*}
+        \int_0^T X_n(s) ds = \sum_{k=0}^{m-1} X_{t_k} \big(B_{t_{k+1}}-B_{t_k} \big) \to \int_0^T X(s) dB_s
+    \end{equation*}
+\end{proof}
+
+\begin{proposition}
+    Given a process $X \in M^2_{loc}[0,T]$ and stopping time $\tau \leq T$, then $I_{\tau}$ is a random variable
+    \begin{equation*}
+        I_{\tau} = \int_0^{\tau} X_s dB_s = \int_0^T X_s \mathbb{I}_{[0,\tau]}(s) dB_s
+    \end{equation*}
+\end{proposition}
+
+\begin{proposition}
+    Let $X,Y \in M^2_{loc}[0,T]$. If $X_{t}(\omega) = Y_t(\omega)$ for almost all $t \in [0,T]$ and for every $\omega \in A \subset \mathcal{F}$. Then
+    \begin{equation*}
+        \int_0^t X_s dB_s = \int_0^t Y_s dB_s \;\; \text{for almost every $\omega \in A$, for all $t \in [0,T]$}
+    \end{equation*}
+\end{proposition}
+
+A process $M = (\Omega, \mathcal{F}, (\mathcal{F}_t)_t, (M_t), \mathbb{P})$ is a local martingale if there exists a increasing sequence of stopping times $(\tau_n)$ such that: $\tau_n \uparrow \infty$ almost surely; The process $(M_{t \wedge \tau_n})$ is an $\mathcal{F}_t-$martingale for every $n$. We say the sequence of stopping times $t \wedge \tau_n$ \textit{reduces} the local martingale; in the sense that the stopped process is a martingale. 
+
+\begin{proposition}
+    Let $M$ be a continuous local martingale, then there exists a unique process $A_t$ increasing, adapted, continuous and $A_0 = 0$, such that $M_t^2 - A_t$ is a continuous martingale. This process is called \textit{quadratic variation} and is equal to 
+    \begin{equation}
+        \langle M \rangle_t = A_t = \mathbb{P}-\lim_{\vert \pi \vert \to 0} \sum_{k = 0}^{m-1} \big( M_{t_{k+1}} - M_{t_k} \big)^2 
+    \end{equation}
+\end{proposition}
+
+\begin{proposition}
+    Let $X \in M^2_{loc}[0,T]$, the stochastic integral of $X$ is a continuous local martingale and its quadratic variation is equal to 
+    \begin{equation}
+        A_t = \Big\langle \int_0^T X_s dB_s \Big\rangle = \int_0^T X_s^2 ds  
+    \end{equation}
+\end{proposition}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+\begin{corollary}
+    If $M,N$ are two continuous local martingales, there exists a unique process $A_t$ with finite variation, such that $Z_t = M_t N_t - A_t$ is a continuous local martingale. This process is also denoted as $\langle M_t, N_t \rangle$ and is called \textit{quadratic covariation}. 
+
+    \begin{equation}
+        \langle M_t, N_t \rangle = \frac{1}{4}\Big( \langle M_t + N_t \rangle - \langle M_t - N_t \rangle \Big)
+    \end{equation}
+\end{corollary}
+

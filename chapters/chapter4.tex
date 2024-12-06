@@ -1,0 +1,469 @@
+\section{Stochastic Differential Equations}
+Stochastic differential equations arise in a natural way when we try to model random phenomena evolving with time. Consider for instance a particle, moving through a bi-dimensional fluid. Denote the horizontal position of the particle with $X(t)$; the change in position after a time interval $\Delta t$ is $\Delta X(t) = X(t+\Delta t) - X(t)$. From a physical point of view, the change in position is caused by two distinct effects: the velocity of the fluid, which causes the particle to shift in the same direction of the fluid, and the huge number of collisions with molecules of the fluid, somehow related to the fluid temperature. While the former can be precisely measured, the latter is purely stochastic, as the molecules inside of the fluid move randomly. Passing to the limit $\Delta t \to 0$, we may write, in the language of stochastic differential equations
+
+\begin{equation*}
+\begin{cases}
+    dX_t = b(t,X(t)) dt + \sigma(t,X(t))dB_t \\
+    X_0 = x
+\end{cases}
+\end{equation*}
+
+Recall that, strictly speaking, this expression has meaning only in integral form. The solution to such equation is a stochastic process, that must live inside of a filtered probability space $(\Omega, \mathcal{F}, (\mathcal{F}_t), (B_t),\mathbb{P})$, where $B_t$ is a Brownian motion. How is this probability space chosen and can we ensure that such stochastic process is unique or even exists are some of the questions of this chapter.  
+
+In the following, we will always assume that $b : [0,T] \times \mathbb{R}^n \to \mathbb{R}^n$ and $\sigma : [0,T] \times \mathbb{R}^n \to \mathbb{R}^{n \times d}$ are both deterministic and measurable functions. 
+
+\begin{definition}
+    The pair $(X,B) = (\Omega, \mathcal{F}, (\mathcal{F}_t), (B_t), (X_t), \mathbb{P})$ is a solution to the stochastic differential equation
+
+    \begin{equation*}
+    \begin{cases}
+        dX_t = b(t,X(t)) dt + \sigma(t,X(t))dB_t \\
+        X_u = \eta \sim \mathcal{L}(\eta)
+    \end{cases}
+    \end{equation*}
+
+    if $B = (\Omega, \mathcal{F}, (\mathcal{F}_t), (B_t), \mathbb{P})$ is a $d-$dimensional, continuous and standard Brownian motion; the random variable $\eta$ is $\mathcal{F}_u-$measurable and $\eta \sim \mathcal{\eta}$; for every $t \in [u,T]$
+    \begin{equation*}
+        X_t = \eta + \int_u^t b(s,X_s) ds + \int_u^t \sigma(s,X_s) dB_s \;\;\;\; \mathbb{P}-\text{a.s.}
+    \end{equation*}
+\end{definition}
+
+\begin{definition}
+    A stochastic differential equation has a \textit{strong solution} if, for every continuous standard Brownian Motion $B = (\Omega, \mathcal{F},(\mathcal{F}_t),B_t,\mathbb{P})$ and for a $\mathcal{F}_u-$measurable random variable $\eta \sim \mathcal{L}(\eta)$ there exists a process $X$ on $(\Omega,\mathcal{F},(\mathcal{F}_t),\mathbb{P})$ such that $(X,B)$ is a solution of the \textit{SDE}. 
+\end{definition}
+
+\begin{definition}
+    A stochastic differential equation has a \textit{weak solution} if there exists a Brownian motion $B = (\Omega, \mathcal{F},(\mathcal{F}_t),B_t,\mathbb{P})$, an $\mathcal{F}_u-$measurable random variable $\eta \sim \mathcal{L}(\eta)$ and a process $X$ such that the pair $(X,B)$ is a solution of the \textit{SDE}. 
+\end{definition}
+
+
+If a strong solution exists, it must be adapted to the augmented natural filtration $\bar{\mathcal{G}}_t$ of the Brownian motion. Hence, another possible definition is: $(X,B)$ is a strong solution if it is adapted to $\bar{\mathcal{G}}_t$. Clearly, the existence of a strong solution implies the existence of a weak solution as well. 
+
+\begin{definition}
+    A stochastic differential equation has \textit{uniqueness in law} if, given two solutions $(\Omega^i, \mathcal{F}^i, (\mathcal{F}^i_t),(B_t^i),\mathbb{P}^i)$ for $i = 1,2$, possibly defined on different probability spaces with respect to different Brownian motions, the pairs $(X^1,B^1)$ and $(X^2,B^2)$ are equivalent. Since all brownian motions are equivalent by definition, we are actually requiring $X^1$ and $X^2$ to have the same law.
+\end{definition}
+
+\begin{definition}
+    A stochastic differential equation has \textit{path-wise uniqueness} if, given two solutions $(\Omega,\mathcal{F},(\mathcal{F}_t),(X_t^i),(B_t),\mathbb{P})$ for $i=1,2$, defined on the same probability space with respect to the same Brownian motion, $X^1$ and $X^2$ are indistinguishable, $\mathbb{P}(X^1_t = X^2_t \; \forall t \in [0,T]) = 1$. 
+\end{definition}
+
+Path-wise uniqueness is much stronger than uniqueness in law. Notice that the former requires the solutions to be defined on the same probability space, with respect to the same Brownian motion. We now provide an example of a stochastic differential equation with only weak solutions, known as \textit{Tanaka's equation}:
+
+\begin{equation}
+    dX_t = \text{sgn}(X_t) dB_t \;\;\; X_0 = 0 
+\end{equation}
+
+We recall the following result by Levy: an $\mathcal{F}_t-$adapted continuous $d-$dimensional process with $X_0=0$ is a Brownian motion if and only if $X$ is a continuous local martingale and $\langle X^i, X^j \rangle_t = \delta_{ij} t$, where $\delta_{ij}$ is the Kronecker delta. In the one-dimensional case, the real-valued Brownian motion is the only continuous local martingale with quadratic variation equal to $t$. Let's apply this result to Tanaka's equation.
+
+Consider a continuous standard Brownian motion $X$, with respect to the augmented natural filtration $\bar{\mathcal{G}}_t$. Define the process $B$ as 
+
+\begin{gather*}
+    B_t = \int_0^t \text{sgn}(X_s) dX_s \;\;\;\;\; dB_t = \text{sgn}(X_t)dX_t \\
+    \langle B_t \rangle = \int_0^t \Big( \text{sgn}(X_s) \Big)^2 ds = \int_0^t 1 ds = t
+\end{gather*}
+
+By Levy characterization, $B_t$ is a continuous local martingale with quadratic variation equal to $t$, hence it's a $\bar{\mathcal{G}}_t$ Brownian motion. Multiply the stochastic differential of $B_t$ by the sign of $X_t$
+
+\begin{equation*}
+    \text{sgn}(X_t) dB_t = \text{sgn}(X_t) \text{sgn}(X_t) dX_t \; \implies \; dX_t = \text{sgn}(X_t) dB_t
+\end{equation*}
+
+So the pair $(X_t,B_t)$ is a solution to Tanaka's equation. From our construction is clear that both the process $X_t$ and the Brownian motion must be specified, rather than given \textit{a priori}. The equation only admits weak solutions. Moreover, the solutions are unique in law but not path-wise: if $(X,B)$ is a solution, then $(-X,B)$ is a solution too.
+
+Another very famous stochastic differential equation is the \textit{Ornstein-Uhlenbeck} equation. Let $X$ be an $n-$dimensional stochastic process such that
+
+\begin{equation*}
+\begin{cases}
+    d X_t = -A X_t dt + \sigma dB_t \\
+    X_0 = x
+\end{cases}
+\end{equation*}
+
+In this equation, $A$ is an $n\times n$ matrix, $\sigma$ is $n \times d$ and $B_t$ is a $d-$dimensional Brownian motion. To solve this, we consider the process $Z_t = e^{A t} X_t$ and compute the stochastic differential using Ito formula
+
+\begin{gather*}
+    dZ_t = A e^{A t} X_t dt + e^{A t} dX_t = A e^{A t} X_t dt + e^{A t} \big( -A X_t dt + \sigma dB_t \big) = e^{A t} \sigma dB_t \\
+    Z_t - Z_0 = \int_0^t e^{As} \sigma dB_s
+\end{gather*}
+
+Now we substitute back $X_t = e^{-At}X_t$ and $Z_0 = X_0 = x$, getting 
+
+\begin{equation}
+    X_t = e^{-At }x + \int_0^t e^{-A(t-s) }\sigma dB_s \;\;\;\;\; e^{At} = \sum_{k=0}^{\infty} \frac{(A t)^n}{n!}
+\end{equation}
+
+This kind of equation arises in the description of the stochastic harmonic oscillator. Consider a particle of mass $m$, subject to a harmonic potential $V(x) = \frac{1}{2}kx^2$, that creates a force on the mass equal to $\vec{F}(x) = -\frac{dV}{dx} = -kx$. Let $q(t),p(t)$ represent the position and the momentum of the particle at time $t$. Time variation of momentum is due to the action of the elastic force, some friction force $-\gamma p(t)$ and a white noise $\sigma$, related to the Brownian motion $B(t)$. The dynamics of the system is described by \textit{Langevin equations}
+
+\begin{equation}
+    \begin{cases}
+        dq(t) = \frac{1}{m} p(t) dt \\
+        dp(t) = -kq(t)dt-\gamma p(t) dt + \sigma dB_t 
+    \end{cases}
+\end{equation}
+
+This equation can be rewritten in terms of a system of Ornstein-Uhlenbeck processes: introducing the matrices
+
+\begin{equation*}
+    \textbf{X}(t) = \begin{bmatrix}
+        q(t) \\
+        p(t)
+    \end{bmatrix}
+    \;\;\;
+    A = 
+    \begin{bmatrix}
+        0 & -\frac{1}{m} \\
+        k & \gamma 
+    \end{bmatrix}
+    \;\;\;
+    \Tilde{\sigma} = \begin{bmatrix}
+        0 \\
+        \sigma
+    \end{bmatrix}
+\end{equation*}
+\begin{equation*}
+    dX_t = -A X_t dt + \Tilde{\sigma} dB_t
+\end{equation*}
+
+Another equation of fundamental importance is the \textit{Geometric Brownian Motion}. In finance, it is used to model the price of stocks in capital markets. Let $X(t)$ be the price of a stock and denote $\Delta X(t)$ the increment in the time interval $\Delta t$. Suppose the quantity $\frac{\Delta X(t)}{X(t)}$, namely the \textit{return} of the stock, is normally distributed with mean and variance proportional to the time interval length. Passing to the limit for $\Delta t \to 0$, we get the stochastic differential equation
+
+\begin{equation*}
+    \frac{dX_t}{X_t} = \mu dt + \sigma dB_t \; \implies \; dX_t = \mu X_t dt + \sigma X_t dB_t
+\end{equation*}
+
+It can be proven that this equation has a path-wise unique strong solution, which depends on the initial condition $X(0) = x$. 
+
+\begin{equation*}
+    X_t = x \exp{ \Big(\mu-\frac{1}{2} \sigma^2\Big)t + \sigma B_t}
+\end{equation*}
+
+\subsection{Existence and Uniqueness}
+If the diffusion term of a stochastic differential equation was zero $\sigma(t,X_t) = 0$, we would be working with an ordinary differential equation. Even in this trivial case, we must specify some conditions on the drift term to ensure the solution existence and uniqueness. In particular, Cauchy theorem requires the drift $b(t,X_t)$ to be continuous for existence and local lipschitzianity for uniqueness. 
+
+In the following, we will often refer to the same set of assumptions of the coefficients $b,\sigma$. So we clearly state them now, getting back at them later on. We are going to denote this set of conditions with the letter $\textbf{A}$. Let $b : [0,T] \times \mathbb{R}^n \to \mathbb{R}^n$ and $\sigma : [0,T] \times \mathbb{R}^{n\times d}$ satisfy the following properties
+
+\begin{enumerate}
+    \item $b,\sigma$ are measurable functions in $(t,x)$
+    \item \textit{Sublinear growth in $x$ uniformly in $t$:} there exists a constant $M > 0$ such that
+    \begin{equation*}
+        \begin{cases}
+            \vert b(t,X) \vert \leq M\big(1+\vert x \vert\big) \\
+            \vert \sigma(t,X) \vert \leq M\big( 1 + \vert x \vert \big)
+        \end{cases}
+        \;\;\;\;
+        \forall x \in \mathbb{R}^n \; , \; \forall t \in [0,T]
+    \end{equation*}
+    \item \textit{Lipschitz continuity in $x$ uniformly in $y$:} there exists a constant $L > 0$ such that
+    \begin{equation*}
+        \begin{cases}
+            \vert b(t,x) - b(t,y) \vert \leq L\vert x-y \vert \\
+            \vert \sigma(t,x)-\sigma(t,y) \vert \leq L\vert x - y \vert
+        \end{cases}
+        \;\;\;\;
+        \forall x,y \in \mathbb{R}^n \; , \; \forall t \in [0,T]
+    \end{equation*}
+\end{enumerate}
+
+We introduce the space of solutions $S^2 = L^2\big(\Omega, (\mathcal{C}^0[u,T]; \mathbb{R}^n)\big)$, or alternatively
+
+\begin{equation*}
+    S^2(\Omega) = \{ \text{continuous processes} : \sup_{t \in [u,T]} \vert X_t \vert^2 < \infty \}    
+\end{equation*}
+
+$S^2$ is a Banach space with respect to the norm $\Vert X \Vert_{S^2} = \Big( E\big( \sup \vert X_t \vert^2 \big) \Big)^{\frac{1}{2}}$. This is the space in which we'll look for solutions of stochastic differential equations. 
+
+\begin{theorem}[Existence and Uniqueness]
+    Assume the coefficients $b,\sigma$ satisfy the assumptions above. Let $u \geq 0$ and $\eta$ a random variable with values in $\mathbb{R}^n$, $\mathcal{F}_u-$measurable and in $L^2(\Omega,\mathcal{F}_u,\mathbb{P})$. Then there exists a solution $X$ such that
+    \begin{equation*}
+        E\Big( \sup_{t \in [u,T]} \vert X_t \vert^2 \Big) < \infty 
+    \end{equation*}
+    Moreover, $X$ is a strong solutions, path-wise unique.
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+    The assumptions above is quite strong: we can derive a similar existence and uniqueness result with weaker conditions. Consider the new set of assumptions, denoted with the symbol $\textbf{A1}$: let $b : [0,T] \times \mathbb{R}^n \to \mathbb{R}^n$ and $\sigma : [0,T] \times \mathbb{R}^n \to M(n \times d)$
+\begin{enumerate}
+    \item $b$ and $\sigma$ are measurable functions with respect to $(t,x)$
+    \item \textit{Sublinear growth}: there exists a constants $M > 0$ such that
+    \begin{equation*}
+        \begin{cases}
+            \vert b(t,X) \vert \leq M\big(1+\vert x \vert\big) \\
+            \vert \sigma(t,X) \vert \leq M\big( 1 + \vert x \vert \big)
+        \end{cases}
+        \;\;\;\;
+        \forall x \in \mathbb{R}^n \; , \; \forall t \in [0,T]
+    \end{equation*}
+    \item \textit{Local Lipschitz}: for every $N>0$, there exists a constant $L_N > 0$ such that
+    \begin{equation*}
+        \begin{cases}
+            \vert b(t,x) - b(t,y) \vert \leq L_N\vert x-y \vert \\
+            \vert \sigma(t,x)-\sigma(t,y) \vert \leq L_N\vert x - y \vert
+        \end{cases}
+        \;\;\;\;
+        \forall x,y \in \mathbb{R}^n \; , \; \forall t \in [0,T]
+    \end{equation*}
+\end{enumerate}
+
+Notice the only difference between $\textit{A}$ and $\textbf{A1}$ is the third condition, which requires local lipschitzianity instead of the global one. To derive an existence and uniqueness theorem for this set of assumptions, we need a localization results for stochastic differential equations. 
+
+\begin{theorem}[Localization for SDE]
+    Let $b_i,\sigma_i$ be measurable functions on $[u,T] \times \mathbb{R}^n$, for $i=1,2$. Let $X_i$ be solutions to the differential equations
+    \begin{equation*}
+    \begin{cases}
+        dX_i(t) = b_i(t,X(t)) dt + \sigma_i(t,X_i(t)) dB(t) \\
+        X_i(0) = \eta
+    \end{cases}
+    \end{equation*}
+    where $\eta \in L^2(\Omega,\mathcal{F}_u,\mathbb{P})$. Let $D$ be an open set $D \subset \mathbb{R}^n$ such that on $[0,T] \times D$ the coefficients are equal, $b_1(t,x) = b_2(t,x)$ and $\sigma_1(t,x) = \sigma_2(t,x)$, and lipschitz-continuous, \textit{i.e.} exists $L > 0$ 
+    \begin{equation*}
+        \begin{cases}
+            \vert b(t,x) - b(t,y) \vert \leq L\vert x-y \vert \\
+            \vert \sigma(t,x)-\sigma(t,y) \vert \leq L\vert x - y \vert
+        \end{cases}
+    \end{equation*}
+    Then, if $\tau_i$ denotes the exit time of $X_i$ from $D$, we have $\tau_1 \wedge T = \tau_2 \wedge T$ almost surely and 
+    \begin{equation*}
+        \mathbb{P}\big(X_1(t) = X_2(t) \;\; \forall t \in [u,\tau_1 \wedge T] \big) = 1
+    \end{equation*}
+\end{theorem}
+
+Assume $b$ and $\sigma$ satisfy the two first conditions of the set above: joint measurability and sublinear growth. Let $B$ and $\eta \in L^2$ be given and consider $X$ the solution of 
+
+\begin{equation*}
+    X_t = \eta + \int_0^t b(s,X_s) ds + \int_0^t \sigma(s,X_s) dB_s
+\end{equation*}
+
+Let $R > 0$ be a radius and $\tau_R = \inf\{ t : \vert X_t \vert \geq R \}$ the exit time from the open ball of radius $R$. Since $X_t$ is a continuous process, $\tau_R$ is a stopping time. As one could expect, the bigger the radius the higher the stopping time; in fact, it can be shown that
+
+\begin{equation}
+    \mathbb{P}(\tau_R \leq T) = \mathbb{P}\Big(\sup_{0 \leq t \leq T} \vert X_t \vert \geq R \Big) \leq K(M,T) \frac{1+E(\vert \eta \vert^2)}{R^2}
+\end{equation}
+
+In particular, sending $R \to \infty$, we see the probability goes to zero. 
+
+\begin{theorem}[Existence and uniqueness]
+Under assumptions $\textbf{A1}$, let $\eta \in L^2(\Omega,\mathcal{F}_u,\mathbb{P})$. Then, there exists a process $X$ solution of the stochastic differential equation
+\begin{equation*}
+    \begin{cases}
+        dX_t = b(t,X_t) dt + \sigma(t,X_t) dB_t \\
+        X_u = \eta
+    \end{cases}
+\end{equation*}
+
+Moreover, the solution is strong, path-wise unique and
+
+\begin{equation*}
+    E\Big( \sup_{t \in [u,T]} \vert X_t \vert^2  \Big) < \infty
+\end{equation*}
+
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+The two theorems seen so far ensure the existence and uniqueness of strong solutions. Now, we can state and prove a result of the existence of weak solutions. 
+
+\begin{theorem}
+    Consider the stochastic differential equations
+    \begin{equation*}
+    \begin{cases}
+        dX(t) = b(t,X(t)) dt + \sigma(t,X(t)) dB(t) \\
+        X(0) = x
+    \end{cases}
+    \end{equation*}
+    where the initial condition is a deterministic constant $X(0) = x \in \mathbb{R}$ and $B(t)$ is an $n-$dimensional brownian motion. Suppose the coefficients $b:[0,T]\times \mathbb{R}^n \to \mathbb{R}^n$ and $\sigma : [0,T] \times \mathbb{R}^n \to M(n,n)$ are such that 
+    \begin{itemize}
+        \item $b$ measurable and bounded
+        \item $\sigma$ satisfies the set of assumptions $\textbf{A1}$, is a symmetric matrix $\sigma = \sigma^T$ and its smallest eigenvalue is bounded from below by $\lambda > 0$.  
+    \end{itemize}
+    Notice the conditions on $\sigma$ guarantee the inverse $\sigma^{-1}$ is well-defined and bounded. Then there exists a weak solution, unique in law.  
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+
+\subsection{Markov Processes}
+A stochastic process with values in $\mathbb{R}^n$ is called a \textit{Markov Process} if for $0 \leq s \leq t < \infty$ and $A \in \mathcal{B}(R^n)$, the probability of $X_t$ being inside of $A$ at time $t$ does not depend on the whole history of the path, but only the previous instant. In formulae,
+
+\begin{equation}
+    \mathbb{P}(X_t \in A \vert \mathcal{F}_s) = \mathbb{P}(X_t \in A \vert X_s)
+\end{equation}
+
+The conditional law of $X_t$, knowing the past up to time $s$, depends only on $X_s$. \textit{The future depends on the past only through the present}. 
+
+\begin{definition}
+    A function $p : [0,\infty) \times [0,\infty) \times \mathbb{R}^n \times \mathcal{B}(\mathbb{R}^n) \to \mathbb{R}$ is called \textit{Markov transition function} if:
+    \begin{itemize}
+        \item For every fixed $s,t, A \in \mathcal{B}(\mathbb{R}^n)$, the map $x \to p(s,t;x,A)$ is measurable with respect to $\mathbb{B}(\mathbb{R}^n)$. 
+        \item For every fixed $s,t,x$ the map $A \to p(s,t;x,A)$ is a probability measure on the space $\big(\mathbb{R}^n, \mathcal{B}(\mathbb{R}^n)\big)$ such that
+        \begin{equation}
+            p(s,t;X_t,A) = \mathbb{P}(X_t \in A \vert \mathcal{F}_s)
+        \end{equation}
+        \item The function $p$ satisfies \textit{Chapman-Kolmogorov equation}
+        \begin{equation}
+            p(s,t;x,A) = \int_{\mathbb{R}^n} p(u,t;y,A) p(s,u;x,dy)
+        \end{equation}
+    \end{itemize}
+\end{definition}
+
+Moreover, a Markov process is called \textit{homogeneous} if its transition function depends only on $t$ and $s$ through a function of their difference: $p(s,t;x,A) = p(t-s;x,A)$. An example of Markov process is the Brownian motion $B_t$, with transition function
+
+\begin{equation*}
+    p(s,t;x,A) = \frac{1}{\sqrt{2\pi(t-s)}} \int_A \exp{-\frac{(y-x)^2}{2(t-s)}} dy 
+\end{equation*}
+
+Let $M_b(\mathbb{R}^n)$ be the space of functions $f : \mathbb{R}^n \to \mathbb{R}^n$, measurable and bounded. Given a Markov process, one can define a family of operators $\{ T_{s,t} \}$, for $s \leq t$, acting onto the space $M_b(\mathbb{R}^b)$:
+
+\begin{equation*}
+    \big(T_{s,t}f\big)(x) = \int_{\mathbb{R}^n} f(y) p(s,t;x,dy)
+\end{equation*}
+
+Thanks to the Chapman-Kolmogorov equations, this family of linear operators enjoys the composition law $T_{s,u} \circ T_{u,t} = T_{s,t}$. The family is closed with respect to the composition operation; this particular algebraic structure is known as a \textit{semi-group}. Given the semi-group $\{ T_{s,t} \}$ we can define the \textit{infinitesimal generator} as the limit
+
+\begin{equation}
+    L_s f(x) = \lim_{h \to 0} \frac{T_{s,s+h}f(x)-f(x)}{h}
+\end{equation}
+
+\begin{theorem}
+    Under the set of assumptions $\textbf{A1}$, where $b$ and $\sigma$ are locally lipschitz, the process $X = (\Omega, \mathcal{F}, (\mathcal{F}_t), (X_t), \mathbb{P})$ solution of the stochastic differential equation
+
+    \begin{equation*}
+        \begin{cases}
+            dX_t = b(t,X_t)dt+\sigma(t,X_t)dB_t \\
+            X_s = x \in \mathbb{R}^n
+        \end{cases}
+    \end{equation*}
+    is a Markov process starting at time $s$, with initial distribution $\delta_x$ and transition function $p(s,t;x,A) = \mathbb{P}(X_t^{s,x} \in A)$. Lastly, the semi-group of operators associated with $X_t$ has infinitesimal generator $L_s$ given by
+    \begin{equation}
+        L_sf(x) = \frac{1}{2} \sum_{i,j=1}^n (\sigma \sigma^T)_{ij} \frac{\partial^2}{\partial x_i\partial x_j} f(x) + \sum_{i=1}^n b_i(s,x) \frac{\partial}{\partial x_i}f(x)
+    \end{equation}
+\end{theorem}
+
+We now provide some examples of systems of stochastic differential equations, computing their infinitesimal generator. Let $B$ be a real-valued Brownian motion and $X = (X_1,X_2)$ such that
+
+\begin{equation*}
+    \begin{cases}
+        dX_1(t) = b_1\big(t,X_1(t)\big)dt+X_1(t)dB_t \\
+        dX_2(t) = b_2\big(t,X_2(t)\big)dt+X_2(t)dB_t
+    \end{cases}
+\end{equation*}
+
+To calculate the infinitesimal generator, we need to rewrite the system in matrix form, highlighting the coefficients $b(t,X)$ and $\sigma(t,X)$. In particular, we get
+
+\begin{gather*}
+    dX_t = b(t,X) dt + \sigma(X_t) dB_t \\
+    b(X) =
+    \begin{bmatrix}
+        b_1(X_1) \\
+        b_2(X_2)
+    \end{bmatrix}
+    \;\;\;\;
+    \sigma(X) = 
+    \begin{bmatrix}
+        X_1 \\
+        X_2
+    \end{bmatrix}
+\end{gather*}
+
+We can apply the formula $(4.2.5)$, where we have $n=2$
+
+\begin{gather*}
+    \sigma \sigma^T = 
+    \begin{bmatrix}
+        X_1 \\
+        X_2
+    \end{bmatrix}
+    \begin{bmatrix}
+        X_1 & X_2
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        X_1^2 & X_1 X_2 \\
+        X_1 X_2 & X_2^2
+    \end{bmatrix} \\
+    L = \frac{1}{2}\Bigg( X_1^2 \frac{\partial^2}{\partial X_1^2} + 2X_1 X_2 \frac{\partial^2}{\partial X_1 \partial X_2}+ X_2^2 \frac{\partial^2}{\partial X_2^2} \Bigg) + b_1(X_1) \frac{\partial}{\partial X_1} + b_2(X_2) \frac{\partial}{\partial X_2}
+\end{gather*}
+
+Consider a slight variation of the previous example. Instead of dealing with a real-valued Brownian motion, now let $B = (B_1,B_2)$ be a $2-$dimensional Brownian motion. Take $X = (X_1,X_2)$ solution of the system
+
+\begin{equation*}
+    \begin{cases}
+        dX_1(t) = b_1\big(t,X_1(t)\big)dt+X_1(t)dB_1(t) \\
+        dX_2(t) = b_2\big(t,X_2(t)\big)dt+X_2(t)dB_2(t)
+    \end{cases}
+\end{equation*}
+
+The steps are almost identical to the calculations show before: we rewrite the problem in matrix form, evidencing the terms $b(t,X)$, which will be a vector, and $\sigma(t,X)$, which will now be a matrix. 
+
+\begin{gather*}
+    b(X) = 
+    \begin{bmatrix}
+        b_1(X_1) \\
+        b_2(X_2)
+    \end{bmatrix}
+    \;\;\;\;
+    \sigma(X) = 
+    \begin{bmatrix}
+        X_1 & 0 \\
+        0 & X_2
+    \end{bmatrix}
+    \;\;\;\;
+    \sigma(X) \sigma^T(X) = 
+    \begin{bmatrix}
+        X_1^2 & 0 \\
+        0 & X_2^2
+    \end{bmatrix}\\
+    L = \frac{1}{2}\Bigg( X_1^2 \frac{\partial^2}{\partial X_1^2} + X_2^2 \frac{\partial^2}{\partial X_2^2}\Bigg) + b_1(X_1) \frac{\partial}{\partial X_1} + b_2(X_2) \frac{\partial}{\partial X_2}
+\end{gather*}
+
+\subsection{Feynman-Kac Formula}
+In the previous chapter, we have shown there's a strong bound between stochastic differential equations, and Markov processes in general, and differential operators. In fact, by the end of this section, we will be able to show that one can use the solution of a stochastic problem to give a representation formula for the solution of a deterministic partial differential equation. We will be studying the following backward Cauchy problem
+
+\begin{equation}
+    \begin{cases}
+        -\frac{\partial w}{\partial t}(t,x) = L_t w(t,x) - c(t,x) w(t,x) + f(t,x) \\
+        w(x,T) = \phi(x) \;\; \forall x \in \mathbb{R}
+    \end{cases}
+\end{equation}
+
+The problem is called \textit{backward} because we do not impose an initial condition on the solution, like we are used to from other differential equations courses for $t = 0$, but instead do so on the last instant of the time interval, $t = T$. In some sense, the solutions is \textit{derived from the future}.\footnote{For all the finance students out there, this is exactly what is done in the Black-Scholes equation. We impose a terminal condition on the derivative contract, namely $V(T) = max(S-K,0)$ for a Call option.} The differential operator $L_t$ has the form
+
+\begin{equation}
+    L_t = \frac{1}{2} \sum_{i,j=1}^n a_{ij}(t,x) \frac{\partial^2}{\partial x_i \partial x_j} + \sum_{i=1}^n b_i(t,x) \frac{\partial}{\partial x_i}
+\end{equation}
+
+We are going to assume all the coefficients have some regularity, in particular
+
+\begin{enumerate}
+    \item The matrix $a(t,x) = \big(a_{ij}(t,x)\big)$ is uniformly elliptic. This means that there exists a $\lambda > 0$ such that for every $z \in \mathbb{R}^n$
+    \begin{equation*}
+        \langle a(t,x) z, z \rangle = \sum_{i,j=1}^n a_{ij}(t,x) z_i z_j \geq \lambda \vert z \vert^2
+    \end{equation*}
+    This condition ensures that there exists a unique symmetric matrix $\sigma$ such that $a(t,x) = (\sigma \sigma^T)(t,x) = \sigma^2(t,x)$. 
+
+    \item The vector $b(t,x)$ and the matrix $\sigma(t,x)$, just introduced, both satisfy assumptions $\textbf{A1}$
+
+    \item The functions $\phi : \mathbb{R}^n \to \mathbb{R}$ and $f : [0,T] \times \mathbb{R}^n \to \mathbb{R}$ are continuous either non-negative $\phi(x) \geq 0, f(x,t) \geq 0$ or with polynomial growth. The latter means that, for some $\lambda > 0$, 
+    \begin{equation*}
+        \vert \phi(x) \vert \leq M(1+\vert x \vert^{\lambda}) \;\;\;\; \vert f(t,x) \vert \leq M(1+\vert x \vert^{\lambda})
+    \end{equation*}
+
+    \item The function $c : [0,T] \times \mathbb{R}^n \to \mathbb{R}$ is continuous and bounded from below, $c(t,x) \geq -K > \infty$
+
+    \item The solution $w \in \mathcal{C}^{1,2}\big((0,T) \times \mathbb{R}^n\big) \cap \mathcal{C}^0([0,T]\times \mathbb{R}^n)$ exhibits polynomial growth in $x$ uniformly in $t$. In other words, there must exist two constants $M_1,\mu > 0$ such that
+    \begin{equation*}
+        \vert w(t,x) \vert \leq M_1 \big(1+\vert x \vert^{\mu}\big) \;\;\;\; \forall t \in [0,T] \; \forall x \in \mathbb{R}^n
+    \end{equation*}
+\end{enumerate}
+
+\begin{theorem}[Feynman-Kac]
+    If the assumptions above are satisfied, then the solution of the partial differential equation $(4.3.1)$ has the following representation formula
+    \begin{equation}
+        w(t,x) = E^{t,x} \Bigg( \phi(X_T) \exp{-\int_t^t c(s,X_s) ds} + \int_t^T f(s,X_s) \exp{-\int_t^S c(r,X_r) ds} ds \Bigg)
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    FARE DIMOSTRAZIONE
+\end{proof}
+

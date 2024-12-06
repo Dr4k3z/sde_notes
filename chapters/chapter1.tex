@@ -127,7 +127,7 @@ We now briefly discuss the properties of a stochastic process, in particular reg
 Consider again the example above: $X_t'(\omega)$ is continuous, while $X_t(\omega)$ is not. In general, continuity is not preserved under modification. 
 
 \begin{definition}
-    A process $X$ is \textit{measurable} if the map $(t,\omega) \to X_t(\omega)$ is measurable with respect to the $\sigma-$algebra $(T\times \Omega,\mathcal{B}(T) \otimes \mathcal{F}) \to (E,\mathcal{E})$. Moreover, a process is \textit{progressively continuous} if  for every $u \in T$ the map $(t,\omega) \to X_t(\omega)$ is measurable with respect to $([0,u] \times \Omega, \mathcal{B}([0,u]) \otimes \mathcal{F}_u) \to (E,\mathcal{E})$. 
+    A process $X$ is \textit{measurable} if the map $(t,\omega) \to X_t(\omega)$ is measurable with respect to the $\sigma-$algebra $(T\times \Omega,\mathcal{B}(T) \otimes \mathcal{F}) \to (E,\mathcal{E})$. Moreover, a process is \textit{progressively measurable} if  for every $u \in T$ the map $(t,\omega) \to X_t(\omega)$ is measurable with respect to $([0,u] \times \Omega, \mathcal{B}([0,u]) \otimes \mathcal{F}_u) \to (E,\mathcal{E})$. 
 \end{definition}
 
 Progressive measurability is stronger than measurability: since $\mathcal{B}([0,u]) \subset \mathcal{B}(T)$ and $\mathcal{F}_u \subset \mathcal{F}$, if $X$ is progressively measurable, meaning measurable with respect to $\mathcal{B}([0,u]) \otimes \mathcal{F}_u$, than $X$ is also measurable with respect to $\mathcal{B}(T) \otimes \mathcal{F}$.
@@ -505,7 +505,12 @@ The brownian motion is one of the simplest stochastic process and it's the start
     \end{gather}
     \item[Brownian Bridge] Take a real number $0 \leq t \leq 1$ and define $X_t = B_t - tB_1$. It's easy to see that $X_0 = 0$ and $X_1 = 0$. This is also a gaussian process.
 
-    INSERT IMAGE
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.5\linewidth]{assets/bridge.pdf}
+        \caption{The process shows mean-reversion: the more it gets away from the mean, in this case zero, the quicker it will converge back to it}
+        \label{fig:bridge}
+    \end{figure}
 
     \begin{equation}
         E(X_t) = E(B_t - t B_1) = 0

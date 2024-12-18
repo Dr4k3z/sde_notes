@@ -62,6 +62,37 @@ Given two Ito processes $X_1,X_2$ with stochastic differentials $dX_1 = F_1dt+G_
     Let $X_t$ be an Ito process such that $X_0 \in L^1(\Omega, \mathcal{F}, \mathbb{P})$, with stochastic differential $dX_t = F_t dt + G_t dB_t$. $X_t$ is a $\mathcal{F}_t-$local martingale if and only if $F_t = 0$ for every $t \in [0,T]$. Moreover, if $G \in M^2[0,T]$, then $X_t$ is a martingale.
 \end{theorem}
 
+From our current understanding, we can already compute some very basic stochastic differentials. For instance, consider the process $X_t = B_t^2$. By standard calculus, we might be tempted to write $dX_t = 2B_t dB_t$; however, this would be wrong, since by simply taking the expectation of both sides, we'd get $E(B_t^2) = t \neq 0$. On the other hand, recall the the stochastic integral of $B_t$ with respect to $dB_t$ it's actually equal to 
+
+\begin{equation*}
+    \int_0^t B_s dB_s = \frac{1}{2}B_t^2 - \frac{1}{2}t \; \implies \; B_t^2 = t+2\int_0^t B_s dB_s
+\end{equation*}
+
+Recall that $t$ can be written as the integral of $ds$ between zero and $t$ itself and we've found an integral representation of $B_t^2$. Hence, the stochastic differential is $dB_t^2 = 2B_t dB_t+dt$, which is different from the classical analogue.
+
+Consider, now, the process $X_t = t B_t$. To compute its differential it could be very helpful if we could apply some sort of chain rule. As we'll see in the next theorem, this is actually the case. But before stating the stochastic version of the chain rule, we need to work out this example alone. 
+
+\begin{gather*}
+    \int_0^t s dB_s = \mathbb{P}-\lim_{n \to \infty} \sum_{k=0}^{n-1} t_k^n \big( B_{t^n_{k+1}}-B_{t^n_k}\big) \;\;\;\; \int_0^t B_s ds = \text{a.s}\lim_{n \to \infty} B_{t_k^n} \big( t_{k+1}^n-t_{k}^n \big) \\
+    \int_0^t s dB_s + \int_0^t B_s ds = \mathbb{P}-\lim_{n \to \infty} \sum_{k=0}^{n-1} B_{t^n_k}\big( t_{k+1}^n-t_k^n \big) + \sum_{k=0}^{n-1} t_k^n \big( B_{t^n_{k+1}}-B_{t^n_k} \big) = \\
+    = \mathbb{P}-\lim_{n \to \infty} \sum_{k=0}^{n-1} B_{t^n_k}\big( t_{k+1}^n-t_k^n \big) + \sum_{k=0}^{n-1} t_k^n \big( B_{t^n_{k+1}}-B_{t^n_k} \big) \pm \sum_{k=0}^{n-1} t_{k+1}^n \Big( B_{t_{k+1}^n}-B_{t_k^n} \Big) = \\
+    = \mathbb{P}-\lim_{n \to \infty} \sum_{k=0}^{n-1} B_{t^n_k} \big(t_{k+1}^n- t_k^n\big) - \sum_{k=0}^{n-1} \big( t_{k+1}^n-t_k^n \big)\big( B_{t^n_{k+1}} - B_{t^n_k} \big) + \sum_{k=0}^{n-1} t_{k+1}^n \big( B_{t^n_{k+1}}-B_{t^n_k} \big)
+\end{gather*}
+
+The second term can be estimated by the supremum of the difference 
+
+\begin{equation*}
+    \Big\vert \sum_{k=0}^{m-1} (t_{k+1}^n - t_k^n) \big( B_{t^n_{k+1}} - B_{t^n_k} \big) \Big\vert \leq \sup \big\vert B_{t^n_{k+1}} - B_{t^n_k} \big\vert t \to 0
+\end{equation*}
+
+This term goes to zero as $\vert \pi \vert \to 0$ because of the continuity of the Brownian motion. In the end, we are left with only
+
+\begin{equation*}
+    \int_0^t s dB_s + \int_0^t B_s ds = \mathbb{P}-\lim_{n \to \infty} \Big( \sum_{k=0}^{m-1} t^n_{k+1} B_{t^n_{k+1}} - t_k^n B_{t_k} \Big) = tB_t
+\end{equation*}
+
+The process $X_t = tB_t$ is an Ito process with $F_s = B_s$ and $G_s = s$; its stochastic differential is given by $d(tB_t) = B_t dt + t dB_t$. In this particular case, the Leibniz rule holds. Lastly, notice that the quadratic covariation between a deterministic function of time and the Brownian motion is always zero.   
+
 \begin{theorem}[Stochastic Leibniz Rule]
     Given two Ito processes $X_1,X_2$ with stochastic differential $dX_i(t) = F_i(t)dt+G_i(t)dB_i(t)$, then the product $X_1(t) X_2(t)$ is an Ito process with stochastic differential 
     \begin{equation}
@@ -69,7 +100,17 @@ Given two Ito processes $X_1,X_2$ with stochastic differentials $dX_1 = F_1dt+G_
     \end{equation}
 \end{theorem}
 \begin{proof}
-    FARE DIMOSTRAZIONE
+    We are first going to prove the statement for the case of constants and simple 
+    functions, to later on generalize it. So, assume $F_1,F_2,G_1,G_2$ are all constants. 
+    We can work out the stochastic differential using the results from the examples above. 
+    \begin{gather*}
+        X_1(t) - X_1(0) = F_1 t+G_1 B_t \;\;\; X_2(t) - X_2(0) = F_2 t+G_2 B_t \\
+        d\big(X1 X_2\big) = \big( F_1G_2 + G_1F_2 \big)\big( t dB_t+B_t dt \big) + G_1G_2 \big( 2B_t dB_t + dt \big)
+    \end{gather*}
+
+    If $F_i,G_i$ are elementary functions, there exists a partition of $[0,t]$ with sub-interval $I_1,...,I_r$ on which $F_i,G_i$ are constant. The Leibniz rule holds in every sub-interval, so it holds on $[0,t]$. 
+    Now on to the general case in which $F_1,F_2 \in M^1_{loc}[0,t]$ and $G_1,G_2 \in M^2_{loc}[0,t]$. QUESTA NON LA CHIEDE
+
 \end{proof}
 
 We will often write $d\langle X_1,X_2 \rangle_t = dX_1 \cdot dX_2$. This slightly less rigorous expression is quite useful because of the multiplication table
@@ -201,7 +242,7 @@ Many of the properties we discussed in one dimension are still valid: a stochast
 The stochastic integral of a process $\sigma$ is a vector; if $\sigma \in M^2[0,T]$, then each component of this vector is a martingale. We want to compute the quadratic variation of the $i-$th component
 
 \begin{equation*}
-    \langle X_i \rangle = \Big\langle \sum_{i=1}^d \int_0^d \sigma_{ij}(s) dB_j(s) \Big\rangle_t
+    \langle X_i \rangle = \Big\langle \sum_{j=1}^d \int_0^T \sigma_{ij}(s) dB_j(s) \Big\rangle_t
 \end{equation*}
 
 To do so, we shall first consider the process $X_i^2 - \langle X_i \rangle$, which is itself a martingale. Applying the definition of $X_i$

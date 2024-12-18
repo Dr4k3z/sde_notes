@@ -1,5 +1,5 @@
 \section{Stochastic Processes}
-Consider the following game: given a fair coin, you win $1$ if the outcome is \textit{Head} and loose $1$ if the outcome is \textit{Tail}. Without any loss of generality, let's denote head and tail with the numbers $+1$ and $-1$, respectively. Now, tossing the coin three times defines the following sample space 
+Consider the following game: given a fair coin, you win $1$ if the outcome is \textit{Head} and lose $1$ if the outcome is \textit{Tail}. Without any loss of generality, let's denote head and tail with the numbers $+1$ and $-1$, respectively. Now, tossing the coin three times defines the following sample space 
 
 \begin{equation*}
     \Omega = \Big\{ \omega=(\omega_1, \omega_2, \omega_3) : \omega_i \in \{-1,+1\} \Big\}
@@ -491,7 +491,13 @@ The brownian motion is one of the simplest stochastic process and it's the start
     \begin{equation}
         X_t = \mu t + \sigma B_t
     \end{equation}
-    INSERT IMAGE
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.5\linewidth]{assets/drift.pdf}
+        \caption{Brownian motion with drift}
+        \label{fig:drift}
+    \end{figure}
 
     The drift-brownian motion is a gaussian process. To calculate the mean and variance of such process, just take the expected value
 
@@ -526,7 +532,12 @@ The brownian motion is one of the simplest stochastic process and it's the start
     \end{equation}
     This process is of fundamental importance in quantitative finance, as the price dynamics of stocks is assumed to behave exactly like this. In particular, $X_t$ is distributed like a lognormal distribution, so that $\log(X_t) \sim \mathcal{N}(\mu t, \sigma^2 t)$. 
 
-    INSERT IMAGE
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{assets/gbm.pdf}
+        \caption{Geometric Brownian Motion}
+        \label{fig:gbm}
+    \end{figure}
 \end{description}
 
 Let's sum up what we have concluded in this section: by use of Kolmogorov existence theorem, we know a brownian motion does exist, with respect to the natural filtration; furthermore, using Kolmogorov continuity theorem, we've the brownian motion admits a continuous modification. However, the natural filtration is usually not what we work with: we wish the two results above were still true with respect to the \textit{augmented filtration} $\bar{\mathcal{F}} = \sigma(\mathcal{F},\mathcal{N})$. 

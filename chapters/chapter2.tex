@@ -147,7 +147,7 @@ By the scaling properties of a brownian motion, we know that $(B_{t+s}-B_s)$ is 
     Let $B$ be a brownian motion and let $\tau$ be a stopping time, almost surely finite, of the filtration $(\mathcal{F}_t)_t$. Then the quantity $Y_t = B_{t+\tau}-B_{\tau}$ is a brownian motion independent of $\mathcal{F}_{\tau}$. 
 \end{theorem}
 
-This theorem has many important applications, including the \textit{reflection principle} of the brownian motion. Consider a brownian motion $B = (\Omega, \mathcal{F}, (\mathcal{F}_t)_t, (B_t), \mathbb{P})$ and an exit time $\tau_a(\omega) = \inf \{ t \geq 0 : B_t \leq a \}$. Since the interval $(-\infty,a)$ is open,  $\tau_a$ is indeed a stopping time. Moreover, given that the $\limsup$ for $t \to \infty$ is infinite, the stopping time $\tau_a$ is almost surely finite. 
+This theorem has many important applications, including the \textit{reflection principle} of the brownian motion. Consider a brownian motion $B = (\Omega, \mathcal{F}, (\mathcal{F}_t)_t, (B_t), \mathbb{P})$ and an exit time $\tau_a(\omega) = \inf \{ t \geq 0 : B_t \geq a \}$. Since the interval $(-\infty,a)$ is open,  $\tau_a$ is indeed a stopping time. Moreover, given that the $\limsup$ for $t \to \infty$ is infinite, the stopping time $\tau_a$ is almost surely finite. 
 
 \begin{theorem}[Reflection Principle]
     The probability of $\tau_a$ being less or equal than a time instant $t$ is twice the probability of the brownian being bigger than $a$, in formulae
@@ -575,9 +575,6 @@ where we've used the fact that $M_t$ is a super martingale and therefore the exp
         \item There exists $Y \in L^1(\Omega,\mathcal{F},\mathbb{P})$ such that $M_t = E(Y \vert \mathcal{F}_t)$. 
     \end{itemize}
 \end{theorem}
-\begin{proof}
-    FARE DIMOSTRAZIONE
-\end{proof}
 
 \begin{theorem}[Convergence in $L^p$]
     Let $(M_t)$ be a right-continuous martingale. The following conditions are equivalent: 
@@ -587,9 +584,6 @@ where we've used the fact that $M_t$ is a super martingale and therefore the exp
         \item There exists a $Y \in L^p(\Omega, \mathcal{F}, \mathbb{P})$ such that $M_t = E(Y \vert \mathcal{F}_t)$
     \end{itemize}
 \end{theorem}
-\begin{proof}
-    FARE DIMOSTRAZIONE
-\end{proof}
 
 Now that we have a consistent theory of martingale convergence, we can discuss wether the examples of martingales provided so far actually converge to something. Let $M_t = E(Y \vert \mathcal{F}_t)$, for $Y \in L^1(\Omega,\mathcal{F},\mathbb{P})$ and $\mathcal{F}_t$ a proper filtration. This case is exactly one of the statements of the theorem of convergence in $L^1$; hence, we can conclude that there exists an almost surely and $L^1$ limit. 
 
@@ -1103,7 +1097,15 @@ The latter series is clearly $\mathcal{F}_t-$adapted. Now, we known that $I_n \t
     \end{gather*}
 
     As a consequence, the path of $I(t)$ can not have finite variation.
-    To prove the last property, we FINIRE DIMOSTRAZIONE
+    To prove the last property, we follow this approach: we know $I(t)^2 - \langle I \rangle_t$ is a martingale. In particular, the quadratic variation is the only process that, when subtracted to $I(t)^2$, makes the process a martingale. Hence, we just need to show that $I(t)^2-\int_0^t X_s^s$ is martingale.
+
+    \begin{gather*}
+        E\Bigg( I(t)^2 - \int_0^t X_s^2 ds \Bigg\vert \mathcal{F}_s \Bigg) =\\
+        = E\Bigg( \big( I(t) - I(s) \big)^2 \Big)+I(s)^2 + 2I(s)\big( I(t)-I(s) \big) - \int_0^t X_s^2 ds + \int_0^s X_r^2 dr - \int_0^s X_r^2 dr \Bigg\vert \mathcal{F}_s \Bigg) = \\
+        = E\Big( \big(I(t)-I(s)\big)^2 \big\vert \mathcal{F}_s \Big) + I(s)^2+2I(s)E\Big( I(t)-I(s) \vert \mathcal{F}_s \Big) - E\Bigg( \int_s^t X_r^2 ds \Big\vert \mathcal{F}_s \Bigg) - \int_0^s X_r^s dr = \\
+        = E\Bigg[ \Bigg( \int_s^t X_r dB_r \Bigg)^2 \Bigg\vert \mathcal{F}_s \Bigg] + I(s)^2 - E\Bigg( \int_s^t X_r^2 dr \Bigg) - \int_0^s X_r^2 dr = \\
+        = I(s)^2 - \int_0^s X_r^2 dr \;\; \implies \;\; \text{Martingale}
+    \end{gather*}
 \end{proof}
 
 The final statement also proves that path of a stochastic integrals do not have finite variation, unless $I(t)$ is \textit{a.s.} constant. Applying Doob's inequality, we get
@@ -1147,9 +1149,6 @@ Let $\tau$ be a $\mathcal{F}_t-$stopping time and $X \in M^2[0,T]$. By corollary
         \int_0^t X_s dB_s = \int_0^t Y_s dB_s \;\; \;   \; \forall \; t \in [a,b] \;\; \text{almost surely on $A$}
     \end{equation*}
 \end{theorem}
-\begin{proof}
-    ABBIAMO FATTO LA DIMOSTRAZIONE??
-\end{proof}
 
 \subsection{Local Martingales}
 As in the case of standard $L^p$ space, we also have a locally integrable version. We define the space $M^2_{loc}[a,b]$ as the space of equivalence classes of processes $X$ such that:
@@ -1165,9 +1164,9 @@ With respect to the definition of $M^2$, we no longer require that the expected 
 
 Given a process $X \in M^2_{loc}[0,T]$ and a natural number $n \in \mathbb{N}$ we can define the random time
 
-\begin{equation*}
+\begin{equation}
     \tau_n = \inf\Big\{ t \in [0,T] : \int_0^t \vert X_s \vert^2 ds > n \Big\} \;\;\;\; \tau_n = \infty \;\; \text{if} \;\; \int_0^T X_s^2 ds \leq n
-\end{equation*}
+\end{equation}
 
 The integral process is continuous and increasing; $\tau_n$ is an exit time from a closed set, so it's a $\mathcal{F}_t-$stopping time. We can define the stopped random variable $X_{t}^n(\omega) = X_t(\omega) \mathbb{I}_{[0,\tau_n)}(t)$. Notice that
 
@@ -1188,7 +1187,32 @@ In particular, the expect value of the time integral above is finite, so $X^n_s 
     The stochastic integral for a process $X \in M^2_{loc}[0,T]$ is well defined, continuous and $\mathcal{F}_t-$adapted process. 
 \end{theorem}
 \begin{proof}
-    FARE DIMOSTRAZIONE
+    Consider the increasing sequence of stopping $\{\tau_n \}$ defined in $(2.5.1)$, which goes to $\tau_n \to \infty$ almost surely. For each $n$, the even $A_n = \{ \tau_n = \infty \} \in \mathcal{F}$, because $\tau_n$ is a $\mathcal{F}-$stopping time. Moreover, for $m \leq n$ the events $A_m\subseteq A_n$. For every $\omega \in A_m$ and for every $t \in [0,T]$, the two processes $X_s^m(\omega)$ and $X_s^n(\omega)$ are equal. Thus, we can apply the second localization theorem: the integrals of $X_s^m$ and $X_s^n$ are equal for all $t \in [0,T]$ and for almost every $\omega \in A_m$. 
+
+    \begin{equation*}
+        I_n(t) = \int_0^t X_s^n dB_s = I_m(t) = \int_0^t X_s^m dB_s = I_m(t)
+    \end{equation*}
+
+    This means, inside of $A_m$, there exists at most a negligible subset $N_{m,n}$ where $I_n$ and $I_m$ may differ. Since this relationship is true for every pair $m,n$, we can write
+
+    \begin{equation*}
+        I_n(t) = I_m(t) \;\; \forall t \in [0,T] \; \forall \omega \in A_m \setminus \bigcup_n N_{m,n} \;\; \implies \;\; N_m = \bigcup_n N_{m,n}
+    \end{equation*}
+
+    Therefore, the existence of $I_n$ does not depend on $n$, but rather of the set $A_m \setminus N_m$. However, in our construction $m$ has been chosen arbitrarily, so the stochastic integral is well-defined on the union of all $A_m \setminus N_m$, which we denote with $B$. What is the measure of $B$?
+
+    \begin{gather*}
+        B = \bigcup_m A_m \setminus N_m \;\; \mathbb{P}(B) = \mathbb{P}\Big( \bigcup_m A_m \big) - \mathbb{P}\Big( \bigcup_m N_m \Big) \\
+        \mathbb{P}(B) = \mathbb{P}\Big( \bigcup_m A_m \big) = \mathbb{P}\Big( \bigcup_m \int_0^T X_s^2 ds \leq m \Big) = \mathbb{P}\Big( \int_0^T X_s^2 ds \leq \infty \Big) = 1
+    \end{gather*}
+
+    Since $X_s$ is in $M^2_{loc}[0,T]$. So the variable $I_n(t)$ converges in probability to a well-defined limit we denote $I(t)$. 
+
+    \begin{equation*}
+        I(t) = \mathbb{P}\lim_{n \to \infty} \int_0^t X_s^n dB_s
+    \end{equation*}
+
+    Moreover, $I(t)$ is an adapted process, because the single $I_n(t)$ are themselves $\mathcal{F}_t-$adapted. Lastly, we prove that $I(t)$ is continuous almost surely. By definition, for every $\omega \in A$ there exists a natural number $n_0$ such that $I(t) = I^{n_0}(t)$ for every $t \in [0,T]$. We could also set $I(t,\omega) = 0$ for $\omega \in A^c$; so $I(t)$ is continuous. 
 \end{proof}
 
 So far we've introduced two different definitions for the stochastic integral: one for processes in $M^2[0,T]$ and the other for $M^2_{loc}[0,T]$. However, the former is clearly contained in the latter, so the question is: for $X \in M^2[0,T] \subset M^2_{loc}[0,T]$, are these two definitions equivalent? Yes.
@@ -1290,7 +1314,25 @@ A process $M = (\Omega, \mathcal{F}, (\mathcal{F}_t)_t, (M_t), \mathbb{P})$ is a
     \end{equation}
 \end{proposition}
 \begin{proof}
-    FARE DIMOSTRAZIONE
+    First, we build a sequence of increasing stopping times $\tau_n$ that converges to $\infty$ to reduce the stochastic integral: for instance, consider 
+
+    \begin{equation*}
+        \tau_n = \inf \Big\{ t \geq 0 : \int_0^t X_s^2 ds > n \Big\} \;\;\;\;\; \tau_n = \infty \;\iff\; \int_0^T X_s^2 ds \leq n 
+    \end{equation*}
+
+    The stopped integral $I_{t \wedge \tau_n}$ is the stochastic integral of $X_s$, integrated between zero and the minimum $t \wedge \tau_n$. 
+
+    \begin{equation*}
+        I_{t \wedge \tau_n} = \int_0^{t \wedge \tau_n} X_s dB_s = \int_0^T X_s \mathbb{I}_{[0,t \wedge \tau_n)}(s) dB_s = \int_0^T X_s \mathbb{I}_{[0,t)} \mathbb{I}_{[0,\tau_n]} dB_s = \int_0^t X_s \mathbb{I}_{[0,\tau_n]} dB_s
+    \end{equation*}
+
+    The last integrand process is $X^n = X_s \mathbb{I}_{[0,\tau_n)}$, the same one we used to define stochastic integrals in $M^2_{loc}[0,T]$. In particular, the latter term is a stochastic integral of a $M^2[0,T]$ process, hence a continuous, square-integrable martingale. Hence, the quadratic variation must be
+
+    \begin{gather*}
+        \Big\langle \int_0^t X_s \mathbb{I}_{[0,\tau_n]}(s) dB_s \Big\rangle = \int_0^t X_s^2 \mathbb{I}_{[0,t\tau_n]}(s) ds = \int_0^{\tau_n \wedge t} X_s^2 ds \\
+        \implies \Bigg( \int_0^{t \wedge \tau_n} X_s dB_s \Bigg)^2 - \int_0^{t \wedge \tau_n} X_s^2 ds \;\; \text{Martingale}
+    \end{gather*}
+    The sequence of stopping times $\{\tau_n\}$ reduces the process $(I(t)^2-A_t)$, which in turn is local martingale. 
 \end{proof}
 
 \begin{corollary}

@@ -1,4 +1,4 @@
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/Dr4k3z/notes_sde/main)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/Dr4k3z/sde_notes/main)
 
 # Notes from Stochastic Differential Equations
 

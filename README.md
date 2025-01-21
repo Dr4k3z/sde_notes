@@ -2,6 +2,9 @@
 
 To compile the document, run `pdflatex main.tex`.
 
+> [!TIP]
+> In the Release section of this page, you main find the compiled pdf version.
+
 > [!WARNING]
 > This is the result of notes taken during the course, transcribed and partially reviewed while preparing for the exam. As a result, it will inevitably contain errors and inaccuracies. No instructor has reviewed the content. Therefore, use it at your discretion and responsibly.
 

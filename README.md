@@ -1,3 +1,5 @@
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/Dr4k3z/notes_sde/main)
+
 # Notes from Stochastic Differential Equations
 
 To compile the document, run `pdflatex main.tex`.
